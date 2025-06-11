@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from "./navbar.module.css";
+import { MenuMobile } from "../MenuMobile/menumobile"; // Import correto
 
 export function Navbar() {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMenuMobile, setShowMenuMobile] = useState(false);
 
-  // const toggleMobileMenu = () => {
-  //   setShowMobileMenu(!showMobileMenu);
-  // };
+  const toggleMenuMobile = () => {
+    setShowMenuMobile(!showMenuMobile);
+  };
 
   return (
     <>
@@ -37,7 +38,11 @@ export function Navbar() {
           </li>
         </ul>
 
-        {/* <MobileMenu isOpen={showMobileMenu} onToggle={toggleMobileMenu} /> */}
+        <button className={styles.menuBtn} onClick={toggleMenuMobile}>
+          &#9776;
+        </button>
+
+        <MenuMobile isOpen={showMenuMobile} onToggle={toggleMenuMobile} />
       </nav>
     </>
   );
