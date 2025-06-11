@@ -1,13 +1,10 @@
 .menuMobileOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   backdrop-filter: blur(2px);
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn 0.2s;
 }
 
 @keyframes fadeIn {
@@ -29,18 +26,17 @@
 }
 
 .menuMobile {
-  background: #ffffff;
+  background: #fff;
   width: 280px;
   max-width: 80vw;
   height: 100vh;
-  padding: 0;
   position: fixed;
   top: 0;
   left: 0;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.3s;
 }
 
 .menuHeader {
@@ -53,7 +49,7 @@
 }
 
 .menuTitle {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #1f2937;
   margin: 0;
@@ -67,16 +63,16 @@
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 6px;
-  transition: all 0.2s ease;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
 }
 
 .closeBtn:hover {
-  background-color: #f3f4f6;
+  background: #f3f4f6;
   color: #374151;
 }
 
@@ -107,24 +103,23 @@
   font-weight: 500;
   display: block;
   padding: 1rem 1.5rem;
-  transition: all 0.2s ease;
+  transition: background 0.2s, color 0.2s, border-left-color 0.2s;
   border-left: 3px solid transparent;
 }
 
 .menuMobile a:hover {
-  background-color: #f8fafc;
+  background: #f8fafc;
   color: #1f2937;
   border-left-color: #667eea;
 }
 
 .menuMobile a:active {
-  background-color: #f1f5f9;
+  background: #f1f5f9;
 }
 
-/* Destaque especial para carrinho no mobile */
 .menuMobile a[href="/carrinho"] {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #fff;
   font-weight: 600;
   border-left: 3px solid rgba(255, 255, 255, 0.3);
 }
@@ -141,7 +136,7 @@
   }
 
   .menuTitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .menuMobile a {
