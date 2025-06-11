@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from "./navbar.module.css";
-import MobileMenu from "./MobileMenu";
 
 export function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setShowMobileMenu(!showMobileMenu);
-  };
+  // const toggleMobileMenu = () => {
+  //   setShowMobileMenu(!showMobileMenu);
+  // };
 
   return (
     <>
@@ -17,7 +16,6 @@ export function Navbar() {
           <h1 className={styles.logoText}>🛍️ ShopHub</h1>
         </div>
 
-        {/* Desktop Navigation */}
         <ul className={styles.navItens}>
           <li>
             <Link to="/">Início</Link>
@@ -39,7 +37,7 @@ export function Navbar() {
           </li>
         </ul>
 
-        <MobileMenu isOpen={showMobileMenu} onToggle={toggleMobileMenu} />
+        {/* <MobileMenu isOpen={showMobileMenu} onToggle={toggleMobileMenu} /> */}
       </nav>
     </>
   );
