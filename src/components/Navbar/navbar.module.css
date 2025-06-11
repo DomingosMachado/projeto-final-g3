@@ -63,6 +63,7 @@
   transform: translateY(0);
 }
 
+/* Destaque especial para carrinho */
 .navItens li a[href="/carrinho"] {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;

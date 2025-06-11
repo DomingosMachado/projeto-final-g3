@@ -39,7 +39,7 @@ export function Navbar() {
         </ul>
 
         <button className={styles.menuBtn} onClick={toggleMenuMobile}>
-          ☰
+          &#9776;
         </button>
 
         <MenuMobile isOpen={showMenuMobile} onToggle={toggleMenuMobile} />
