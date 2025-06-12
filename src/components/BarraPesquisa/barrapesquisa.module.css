@@ -1,0 +1,19 @@
+.barraPesquisa {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  justify-content: center;
+}
+.input {
+  width: 100%;
+  padding: 0.7rem 1.2rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.input:focus {
+  border-color: #667eea;
+}

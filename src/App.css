@@ -1,3 +1,11 @@
+html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgb(30, 60, 114), rgb(243, 144, 79));
+  background-attachment: fixed;
+}
+
 #root {
   margin: 0;
   padding: 0;
@@ -6,8 +14,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #93a891;
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, rgb(30, 60, 114), rgb(243, 144, 79));
+  min-height: 100vh;
+  background: transparent;
 }
