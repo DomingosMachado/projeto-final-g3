@@ -5,6 +5,7 @@ import { Footer } from "../../components/Footer/footer.jsx";
 import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
 import { BarraPesquisa } from "../../components/BarraPesquisa/barrapesquisa.jsx";
 
+
 // MOCK PARA TESTAR PRODUTOS
 const produtosExemplo = [
   {
