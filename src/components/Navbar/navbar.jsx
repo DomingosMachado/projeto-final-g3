@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from "./navbar.module.css";
 import { MenuMobile } from "../MenuMobile/menumobile";
+import logo from "../../assets/logo.png";
 
 export function Navbar() {
   const [showMenuMobile, setShowMenuMobile] = useState(false);
@@ -15,11 +16,7 @@ export function Navbar() {
       <nav className={styles.navbar}>
         <div className={styles.logo}>
           <Link to="/">
-            <img
-              src="src\assets\logo.png"
-              alt="Logo"
-              className={styles.logoImage}
-            />
+            <img src={logo} alt="Logo" className={styles.logoImage} />
           </Link>
         </div>
 

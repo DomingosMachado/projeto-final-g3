@@ -15,9 +15,7 @@ export function CardProduto({ imagem, nome, preco, onAdicionar }) {
         onError={handleImageError}
       />
       <div className={styles.infoProduto}>
-        <h3 className={styles.nome}>
-          {nome || "Nome não disponível"}
-        </h3>
+        <h3 className={styles.nome}>{nome || "Nome não disponível"}</h3>
         <div className={styles.footerCard}>
           <span className={styles.preco}>R$ {preco}</span>
           <Botao className={styles.btnAdicionar} onClick={onAdicionar}>
