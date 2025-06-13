@@ -15,7 +15,7 @@ export function Homepage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const {adcAoCarrinho} = useCarrinho();
+  const {adcAoCarrinho, carrinhoItens} = useCarrinho();
 
   const handleBusca = (valorBusca) => {
     console.log("🏠 Homepage - Recebeu busca:", valorBusca);
@@ -106,9 +106,20 @@ export function Homepage() {
   };
 
   const handleAdicionarProduto = (produto) => {
+     if (produto.estoque === 0) {
+    alert("Produto esgotado!");
+    return;
+  }
+  const itemExistente = carrinhoItens.find(item => item.produto.id === produto.id);
+
+  if (itemExistente && itemExistente.quantidade >= produto.estoque) {
+    alert("Você já adicionou a quantidade máxima disponível em estoque.");
+    return;
+  }
+  else{
     adcAoCarrinho(produto)
     console.log("🛒 Produto adicionado:", produto);
-    alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
+    alert(`Produto "${produto.nome}" adicionado ao carrinho!`);}
   };
 
   if (loading) {
@@ -170,6 +181,7 @@ export function Homepage() {
                     imagem={ApiService.getFotoProduto(produto.id)}
                     nome={produto.nome}
                     preco={formatarPreco(produto)}
+                    estoque={produto.estoque}
                     onAdicionar={() => handleAdicionarProduto(produto)}
                   />
                 ))

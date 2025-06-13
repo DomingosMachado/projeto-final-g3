@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import styles from "./navbar.module.css";
 import { MenuMobile } from "../MenuMobile/menumobile";
+import { MiniCarrinho } from "../../pages/carrinho/miniCarrinho/miniCarrinho";
+import { useCarrinho } from "../../context/carrinhoContext";
 
 export function Navbar() {
   const [showMenuMobile, setShowMenuMobile] = useState(false);
@@ -9,6 +11,9 @@ export function Navbar() {
   const toggleMenuMobile = () => {
     setShowMenuMobile(!showMenuMobile);
   };
+
+  const [mostrarMiniCarrinho, setMostrarMiniCarrinho] = useState(false)
+  const { totalItens} = useCarrinho();
 
   return (
     <>
@@ -24,8 +29,15 @@ export function Navbar() {
           <li>
             <Link to="/sobre">Sobre</Link>
           </li>
-          <li>
-            <Link to="/carrinho">🛒 Carrinho</Link>
+          <li
+            onMouseEnter={() => setMostrarMiniCarrinho(true)}
+            onMouseLeave={() => setMostrarMiniCarrinho(false)}>
+            <Link to="/carrinho">🛒 Carrinho
+              {totalItens() > 0 && (
+                <span >{totalItens()}</span>
+              )}
+            </Link>
+            {mostrarMiniCarrinho && <MiniCarrinho />}
           </li>
           <li>
             <Link to="/login">Entrar</Link>

@@ -12,6 +12,9 @@ export function Carrinho() {
         totalPreco,
         finalizarCompra
     } = useCarrinho();
+
+    if (carrinhoItens.length === 0) {} //fazer depois 
+
     return (
         <>
             <Navbar /> {/*colocar outra navbar para cliente logado depois*/}
@@ -26,7 +29,7 @@ export function Carrinho() {
                             style={{ width: "150px", height: "auto", objectFit: "cover" }}
                         />
                         <h4>{produto.nome}</h4>
-                        <p>Preço: R$ {produto.preco}</p>
+                        <p>Preço: R$ {produto.preco.toFixed(2)}</p>
                         <div>
                             <Botao onClick={() => atualizarQuantia(produto.id, quantidade - 1)}>-</Botao>
                             <input type="number" value={quantidade} min="1" onChange={(e) => atualizarQuantia(produto.id, parseInt(e.target.value))} />
@@ -40,11 +43,9 @@ export function Carrinho() {
                 )}
 
 
-
-
                 <div>
                     <p>Total de itens: {totalItens()}</p>
-                    <p>Valor total: R$ {totalPreco()}</p>
+                    <p>Valor total: R$ {totalPreco().toFixed(2)}</p>
                     <Botao onClick={finalizarCompra}>
                         Finalizar Compra
                     </Botao>

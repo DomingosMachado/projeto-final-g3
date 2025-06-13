@@ -63,6 +63,12 @@ export const CarrinhoC = ({ children }) => {
         }
         const token = localStorage.getItem("token"); //quando fizermos o login, tem que armazenar o token e eu uso ele aqui
 
+        if (!token) {
+            alert("Você precisa estar logado para finalizar a compra."); //trocar depois
+            navigate("/login");
+            return;
+        }
+
         try {
             const promises = carrinhoItens.map(({ produto, quantidade }) =>
                 localApi.post(
@@ -108,4 +114,5 @@ export const CarrinhoC = ({ children }) => {
         </CarrinhoContext.Provider>
     )
 }
+export default CarrinhoC; //corrigindo 
 export const useCarrinho = () => useContext(CarrinhoContext);
