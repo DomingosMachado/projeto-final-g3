@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import "./login.css";
+import ApiService from "../../services/api";
 
 function Login() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Login: ${login}\nSenha: ${senha}`);
+    try {
+      const resposta = await ApiService.login(login, senha);
+      alert("Login realizado com sucesso!");
+    } catch (error) {
+      alert(error.message || "Erro ao fazer login");
+    }
   };
 
   return (
