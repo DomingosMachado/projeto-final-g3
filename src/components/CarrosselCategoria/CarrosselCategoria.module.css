@@ -1,0 +1,97 @@
+.carrosselContainer {
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.titulo {
+  color: #374151;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.controles {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.botaoNav {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: #667eea;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.botaoNav:hover:not(:disabled) {
+  background: #5a67d8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.botaoNav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.carrossel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: 1rem 0.5rem;
+  margin: 0 -0.5rem;
+  
+  /* Esconder scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carrossel::-webkit-scrollbar {
+  display: none;
+}
+
+.cardWrapper {
+  flex: 0 0 280px;
+  min-width: 280px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cardWrapper {
+    flex: 0 0 240px;
+    min-width: 240px;
+  }
+  
+  .carrossel {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardWrapper {
+    flex: 0 0 200px;
+    min-width: 200px;
+  }
+  
+  .carrossel {
+    gap: 0.75rem;
+  }
+}

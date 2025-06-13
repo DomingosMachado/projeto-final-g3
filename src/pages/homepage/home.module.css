@@ -1,39 +1,54 @@
 .main {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 2rem auto 0 auto;
   padding: 0 1rem 2rem 1rem;
   min-height: 60vh;
 }
 
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
 .titulo {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #374151;
-  margin-bottom: 2rem;
-  text-align: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitulo {
-  text-align: center;
   color: #6b7280;
   font-size: 1.2rem;
   margin-bottom: 2rem;
   font-weight: 400;
 }
 
-.gridProdutos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  justify-items: center;
+.categorias {
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0;
 }
 
-/* Estados de loading e error */
-.loading, .error {
+.resultadosBusca {
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.gridProdutos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem; /* ESPAÇO ENTRE OS CARDS NO GRID */
+  padding: 1rem 0;
+  justify-items: center;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.loading,
+.error {
   text-align: center;
   padding: 3rem;
   margin: 2rem 0;
@@ -82,7 +97,6 @@
   transform: translateY(-2px);
 }
 
-/* Resultado da pesquisa */
 .resultadoPesquisa {
   text-align: center;
   margin: 1rem 0;
@@ -98,24 +112,9 @@
   margin: 0;
 }
 
-/* Quando não há produtos */
-.semProdutos {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem;
-  color: #6b7280;
-}
-
-.semProdutos h3 {
-  color: #374151;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-
-/* Estatísticas */
 .estatisticas {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
 }
@@ -126,38 +125,32 @@
   font-weight: 500;
 }
 
-/* Media queries - mantendo sua estrutura responsiva */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .main {
     padding: 0 0.5rem 2rem 0.5rem;
   }
 
-  .gridProdutos {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 0;
-  }
-
   .titulo {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 
   .subtitulo {
     font-size: 1.1rem;
   }
-}
 
-@media (min-width: 768px) and (max-width: 1199px) {
   .gridProdutos {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
   }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 480px) {
+  .titulo {
+    font-size: 1.75rem;
+  }
+
   .gridProdutos {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-    max-width: 1000px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
   }
 }

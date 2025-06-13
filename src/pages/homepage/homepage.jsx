@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "./home.module.css";
 import { Navbar } from "../../components/Navbar/navbar.jsx";
 import { Footer } from "../../components/Footer/footer.jsx";
-import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
+import { CarrosselCategoria } from "../../components/CarrosselCategoria/CarrosselCategoria.jsx";
 import { BarraPesquisa } from "../../components/BarraPesquisa/barrapesquisa.jsx";
+import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
 import ApiService from "../../services/api.js";
 
 export function Homepage() {
@@ -13,13 +14,15 @@ export function Homepage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    console.log("🚀 Homepage carregada, iniciando busca de dados...");
+  const handleBusca = (valorBusca) => {
+    console.log("🏠 Homepage - Recebeu busca:", valorBusca);
+    setBusca(valorBusca);
+  };
 
+  useEffect(() => {
     const carregarDados = async () => {
       try {
         setLoading(true);
-        console.log("📊 Carregando produtos e categorias...");
 
         const [produtosData, categoriasData] = await Promise.all([
           ApiService.getProdutos(),
@@ -36,18 +39,58 @@ export function Homepage() {
         setError("Erro ao carregar produtos: " + err.message);
       } finally {
         setLoading(false);
-        console.log("🏁 Carregamento finalizado");
       }
     };
 
     carregarDados();
   }, []);
 
-  const produtosFiltrados = produtos.filter(
-    (produto) =>
-      produto.name?.toLowerCase().includes(busca.toLowerCase()) ||
-      produto.descricao?.toLowerCase().includes(busca.toLowerCase())
-  );
+  const produtosPorCategoria = () => {
+    return categorias
+      .filter((categoria) => categoria && categoria.id)
+      .map((categoria) => {
+        const produtosCategoria = produtos.filter(
+          (produto) => produto && produto.idCategoria === categoria.id
+        );
+
+        return {
+          categoria,
+          produtos: produtosCategoria,
+        };
+      })
+      .filter((item) => item.produtos.length > 0);
+  };
+
+  const produtosFiltrados = () => {
+    if (!busca || !busca.trim()) {
+      return [];
+    }
+
+    const termoBusca = busca.toLowerCase().trim();
+
+    return produtos.filter((produto) => {
+      if (!produto) return false;
+
+      const nomeMatch =
+        produto.nome && produto.nome.toLowerCase().includes(termoBusca);
+
+      const descricaoMatch =
+        produto.descricao &&
+        produto.descricao.toLowerCase().includes(termoBusca);
+
+      const categoria = categorias.find(
+        (cat) => cat.id === produto.idCategoria
+      );
+      const categoriaMatch =
+        categoria &&
+        categoria.name &&
+        categoria.name.toLowerCase().includes(termoBusca);
+
+      return nomeMatch || descricaoMatch || categoriaMatch;
+    });
+  };
+
+  const produtosFiltradosArray = produtosFiltrados();
 
   const formatarPreco = (produto) => {
     if (
@@ -61,15 +104,8 @@ export function Homepage() {
 
   const handleAdicionarProduto = (produto) => {
     console.log("🛒 Produto adicionado:", produto);
-    alert(`Produto "${produto.name}" adicionado ao carrinho!`);
+    alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
   };
-
-  console.log("🔍 Estado atual:", {
-    loading,
-    error,
-    produtos: produtos.length,
-    categorias: categorias.length,
-  });
 
   if (loading) {
     return (
@@ -111,53 +147,51 @@ export function Homepage() {
     <>
       <Navbar />
       <main className={styles.main}>
-        <h1 className={styles.titulo}>Nossa Lojinha</h1>
-        <p className={styles.subtitulo}>
-          Encontre os melhores produtos com os melhores preços!
-        </p>
-
-        <BarraPesquisa onPesquisar={setBusca} />
-
-        {busca && (
-          <div className={styles.resultadoPesquisa}>
-            <p>
-              {produtosFiltrados.length > 0
-                ? `${produtosFiltrados.length} produto(s) encontrado(s) para "${busca}"`
-                : `Nenhum produto encontrado para "${busca}"`}
-            </p>
-          </div>
-        )}
-
-        <div className={styles.gridProdutos}>
-          {produtosFiltrados.length > 0 ? (
-            produtosFiltrados.map((produto) => (
-              <CardProduto
-                key={produto.id}
-                imagem={ApiService.getFotoProduto(produto.id)}
-                nome={produto.name}
-                descricao={produto.descricao}
-                preco={formatarPreco(produto)}
-                onAdicionar={() => handleAdicionarProduto(produto)}
-              />
-            ))
-          ) : (
-            <div className={styles.semProdutos}>
-              <h3>Nenhum produto disponível no momento</h3>
-              <p>Volte em breve para conferir nossas novidades!</p>
-              <p>
-                <small>
-                  Debug: {produtos.length} produtos carregados
-                </small>
-              </p>
-            </div>
-          )}
+        <div className={styles.hero}>
+          <h1 className={styles.titulo}>Nossa Lojinha</h1>
+          <p className={styles.subtitulo}>
+            Encontre os melhores produtos com os melhores preços!
+          </p>
+          <BarraPesquisa onPesquisar={setBusca} />
         </div>
 
-        {produtos.length > 0 && (
-          <div className={styles.estatisticas}>
-            <p>
-              Exibindo {produtosFiltrados.length} de {produtos.length} produtos
-            </p>
+        {/* Se houver busca, mostra resultados */}
+        {busca.trim() ? (
+          <div className={styles.resultadosBusca}>
+            <div className={styles.gridProdutos}>
+              {produtosFiltradosArray.length > 0 ? (
+                produtosFiltradosArray.map((produto) => (
+                  <CardProduto
+                    key={produto.id}
+                    imagem={ApiService.getFotoProduto(produto.id)}
+                    nome={produto.nome}
+                    preco={formatarPreco(produto)}
+                    onAdicionar={() => handleAdicionarProduto(produto)}
+                  />
+                ))
+              ) : (
+                <div className={styles.semResultados}>
+                  <h3>😔 Nenhum produto encontrado</h3>
+                  <p>
+                    Tente outras palavras-chave ou explore nossas categorias
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* Carrosséis quando não há busca */
+          <div className={styles.categorias}>
+            {produtosPorCategoria().map(
+              ({ categoria, produtos: produtosCategoria }) => (
+                <CarrosselCategoria
+                  key={categoria.id}
+                  categoria={categoria}
+                  produtos={produtosCategoria}
+                  onAdicionarProduto={handleAdicionarProduto}
+                />
+              )
+            )}
           </div>
         )}
       </main>
