@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    height: 100vh;
+    color: rgb(175, 70, 0);
+}
+*{
+    box-sizing: border-box;
+}
+.background {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background: rgb(247, 247, 246);   
+    border-radius: 20px;
+    padding: 72px 32px 58px;
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.login :is(h2, h3) {
+    font-weight: 500;
+}
+.login h2 {
+    font-size: 24px;
+    margin: 0 0 8px;
+}
+.login h3 {
+    color: var(--color-muted);
+    font-size: 12px;
+    margin: 0 0 56px;
+}
+.login form {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    margin: 0 0 32px;
+}
+.login .textbox {
+    position: relative;
+}
+.login input {
+    height: 56px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    padding: 0 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: #5739ff;
+    background: #f0e3db;
+}
+
+.login button {
+    height: 56px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: #fff;
+    background: #5739ff;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    padding: 0 16px;
+}
+
+.login button:hover {
+    background: #4326c7;
+    transform: scale(1.03);
+}
+label, input {
+    transition: 0.3s;
+}
+.textbox label {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    transform-origin: 0 50%;
+    pointer-events: none;
+    color: var(--color-muted);
+    font-size: 16px;
+    transition: 0.3s;
+}
+.textbox input:focus + label,
+.textbox.filled label {
+    top: 8px;
+    left: 12px;
+    font-size: 12px;
+    color: #5739ff;
+    background: #f7f7f6;
+    padding: 0 4px;
+}
+.textbox input {
+    width: 100%;
+    padding-top: 10px;
+    background: #f0e3db;
+    outline: none;
+    color: #5739ff;
+    box-shadow: 0 0 0 2px transparent;
+}
+.login-links {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    font-size: 14px;
+    margin-top: -23px;
+}
+.login-links a {
+    color: #5739ff;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+}
+.login-links a:hover {
+    text-decoration: underline;
+}

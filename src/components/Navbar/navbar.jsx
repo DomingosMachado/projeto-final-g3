@@ -3,6 +3,8 @@ import { useState } from "react";
 import styles from "./navbar.module.css";
 import { MenuMobile } from "../MenuMobile/menumobile";
 import logo from "../../assets/logo.png";
+import { MiniCarrinho } from "../../pages/carrinho/miniCarrinho/miniCarrinho";
+import { useCarrinho } from "../../context/carrinhoContext";
 
 export function Navbar() {
   const [showMenuMobile, setShowMenuMobile] = useState(false);
@@ -10,6 +12,9 @@ export function Navbar() {
   const toggleMenuMobile = () => {
     setShowMenuMobile(!showMenuMobile);
   };
+
+  const [mostrarMiniCarrinho, setMostrarMiniCarrinho] = useState(false)
+  const { totalItens} = useCarrinho();
 
   return (
     <>
@@ -31,6 +36,15 @@ export function Navbar() {
             <Link to="/carrinho" className={styles.carrinhoLink}>
               🛒 Carrinho
             </Link>
+          <li
+            onMouseEnter={() => setMostrarMiniCarrinho(true)}
+            onMouseLeave={() => setMostrarMiniCarrinho(false)}>
+            <Link to="/carrinho">🛒 Carrinho
+              {totalItens() > 0 && (
+                <span >{totalItens()}</span>
+              )}
+            </Link>
+            {mostrarMiniCarrinho && <MiniCarrinho />}
           </li>
           <li>
             <Link to="/login">Entrar</Link>

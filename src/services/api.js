@@ -1,5 +1,11 @@
+import axios from "axios";
+
 const API_BASE_URL = 'http://localhost:8080';
 
+export const localApi = axios.create({
+    baseURL : 'http://localhost:8080'
+ })
+ 
 class ApiService {
   static async get(endpoint) {
     console.log(`🔄 Fazendo requisição para: ${API_BASE_URL}${endpoint}`);
@@ -46,6 +52,27 @@ class ApiService {
   // Categorias
   static async getCategorias() {
     return this.get('/categorias');
+  }
+  // Login
+  static async login(login, senha) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ login, senha }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Usuário ou senha inválidos');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
