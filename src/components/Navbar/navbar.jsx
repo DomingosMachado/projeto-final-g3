@@ -14,7 +14,13 @@ export function Navbar() {
     <>
       <nav className={styles.navbar}>
         <div className={styles.logo}>
-          <h1 className={styles.logoText}>🛍️ Grupo 3</h1>
+          <Link to="/">
+            <img
+              src="src\assets\logo.png"
+              alt="Logo"
+              className={styles.logoImage}
+            />
+          </Link>
         </div>
 
         <ul className={styles.navItens}>
@@ -24,8 +30,10 @@ export function Navbar() {
           <li>
             <Link to="/sobre">Sobre</Link>
           </li>
-          <li>
-            <Link to="/carrinho">🛒 Carrinho</Link>
+          <li className={styles.carrinhoLi}>
+            <Link to="/carrinho" className={styles.carrinhoLink}>
+              🛒 Carrinho
+            </Link>
           </li>
           <li>
             <Link to="/login">Entrar</Link>

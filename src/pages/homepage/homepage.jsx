@@ -6,6 +6,7 @@ import { CarrosselCategoria } from "../../components/CarrosselCategoria/Carrosse
 import { BarraPesquisa } from "../../components/BarraPesquisa/barrapesquisa.jsx";
 import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
 import ApiService from "../../services/api.js";
+import toast, { Toaster } from "react-hot-toast";
 
 export function Homepage() {
   const [produtos, setProdutos] = useState([]);
@@ -103,8 +104,7 @@ export function Homepage() {
   };
 
   const handleAdicionarProduto = (produto) => {
-    console.log("🛒 Produto adicionado:", produto);
-    alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
+    toast.success(`Produto "${produto.nome}" adicionado ao carrinho!`);
   };
 
   if (loading) {
@@ -112,9 +112,10 @@ export function Homepage() {
       <>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.loading}>
-            <h2>Carregando produtos...</h2>
-            <p>Aguarde um momento</p>
+          <div className={styles.gridProdutos}>
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className={styles.skeletonCard} />
+            ))}
           </div>
         </main>
         <Footer />
@@ -145,6 +146,7 @@ export function Homepage() {
 
   return (
     <>
+      <Toaster position="top-right" />
       <Navbar />
       <main className={styles.main}>
         <div className={styles.hero}>
