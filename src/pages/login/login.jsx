@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import "./login.css";
 import ApiService from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const resposta = await ApiService.login(login, senha);
+  e.preventDefault();
+  try {
+    const resposta = await ApiService.login(login, senha);
+    const token = resposta.token;
+    if (token) {
+      localStorage.setItem("token", token); // token no localStorage
       alert("Login realizado com sucesso!");
-    } catch (error) {
-      alert(error.message || "Erro ao fazer login");
+      navigate("/home");
+    } else {
+      alert("Token não recebido!");
     }
-  };
+  } catch (error) {
+    alert(error.message || "Erro ao fazer login");
+  }
+};
 
   return (
     <div>
