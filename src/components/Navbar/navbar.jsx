@@ -13,8 +13,8 @@ export function Navbar() {
     setShowMenuMobile(!showMenuMobile);
   };
 
-  const [mostrarMiniCarrinho, setMostrarMiniCarrinho] = useState(false)
-  const { totalItens} = useCarrinho();
+  const [mostrarMiniCarrinho, setMostrarMiniCarrinho] = useState(false);
+  const { totalItens } = useCarrinho();
 
   return (
     <>
@@ -32,17 +32,13 @@ export function Navbar() {
           <li>
             <Link to="/sobre">Sobre</Link>
           </li>
-          <li className={styles.carrinhoLi}>
-            <Link to="/carrinho" className={styles.carrinhoLink}>
-              🛒 Carrinho
-            </Link>
           <li
             onMouseEnter={() => setMostrarMiniCarrinho(true)}
-            onMouseLeave={() => setMostrarMiniCarrinho(false)}>
-            <Link to="/carrinho">🛒 Carrinho
-              {totalItens() > 0 && (
-                <span >{totalItens()}</span>
-              )}
+            onMouseLeave={() => setMostrarMiniCarrinho(false)}
+          >
+            <Link to="/carrinho" className={styles.carrinhoLink}>
+              🛒 Carrinho
+              {totalItens() > 0 && <span>{totalItens()}</span>}
             </Link>
             {mostrarMiniCarrinho && <MiniCarrinho />}
           </li>
