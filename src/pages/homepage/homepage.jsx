@@ -6,6 +6,7 @@ import { CarrosselCategoria } from "../../components/CarrosselCategoria/Carrosse
 import { BarraPesquisa } from "../../components/BarraPesquisa/barrapesquisa.jsx";
 import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
 import ApiService from "../../services/api.js";
+import { useCarrinho } from "../../context/carrinhoContext.jsx";
 
 export function Homepage() {
   const [produtos, setProdutos] = useState([]);
@@ -13,6 +14,8 @@ export function Homepage() {
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const {adcAoCarrinho} = useCarrinho();
 
   const handleBusca = (valorBusca) => {
     console.log("🏠 Homepage - Recebeu busca:", valorBusca);
@@ -103,6 +106,7 @@ export function Homepage() {
   };
 
   const handleAdicionarProduto = (produto) => {
+    adcAoCarrinho(produto)
     console.log("🛒 Produto adicionado:", produto);
     alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
   };
