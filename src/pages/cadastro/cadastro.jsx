@@ -1,306 +1,340 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from '../../components/Navbar/navbar.jsx';
 import { Footer } from '../../components/Footer/footer.jsx';
 import './cadastro.css';
 import { Link } from 'react-router-dom';
 
-
 export function Cadastro() {
-  const [form, setForm] = useState({
+  const [dadosPessoais, setDadosPessoais] = useState({
     nome: '',
     cpf: '',
     dataDeNascimento: '',
-    genero: '',
     telefone: '',
-    cep: '',
-    rua: '',
-    numero: '',
-    complemento: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
     email: '',
     senha: '',
-    confirmacaoSenha: ''
+    confirmaSenha: ''
   });
+
+  const [endereco, setEndereco] = useState({
+    cep: '',
+    logradouro: '',
+    complemento: '',
+    bairro: '',
+    localidade: '',
+    uf: '',
+    numero: ''
+  });
+
   const [mensagem, setMensagem] = useState('');
-  const [erroSenha, setErroSenha] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [loadingCep, setLoadingCep] = useState(false);
 
-  function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    if (e.target.name === 'confirmacaoSenha' || e.target.name === 'senha') {
-
-      // Verifica se as senhas coincidem
-      if (
-
-        (e.target.name === 'confirmacaoSenha' && e.target.value !== form.senha) ||
-        (e.target.name === 'senha' && form.confirmacaoSenha && e.target.value !== form.confirmacaoSenha)
-
-      ) {
-        setErroSenha('As senhas não coincidem');
-      } else {
-        setErroSenha('');
-      }
+  // Efeito para buscar CEP quando estiver completo
+  useEffect(() => {
+    if (endereco.cep.replace(/\D/g, '').length === 8) {
+      buscarEnderecoPorCep();
     }
-  }
+  }, [endereco.cep]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    //senha diferente
-    if (form.senha !== form.confirmacaoSenha) {
-      setErroSenha('As senhas não coincidem');
-      return;
-    }
-    setMensagem('Cadastro realizado com sucesso!');
-    setForm({
-      nome: '',
-      cpf: '',
-      dataDeNascimento: '',
-      genero: '',
-      telefone: '',
-      cep: '',
-      rua: '',
-      numero: '',
-      complemento: '',
-      bairro: '',
-      cidade: '',
-      estado: '',
-      email: '',
-      senha: '',
-      confirmacaoSenha: ''
-    });
-    setErroSenha('');
-    setTimeout(() => setMensagem(''), 3000);
-  }
+  const buscarEnderecoPorCep = async () => {
+    const cepLimpo = endereco.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) return;
 
-  async function handleCepBlur(e) {
-    const cep = e.target.value.replace(/\D/g, '');
-    if (cep.length !== 8) return;
+    setLoadingCep(true);
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const data = await response.json();
-      if (!data.erro) {
-        setForm(prev => ({
-          ...prev,
-          rua: data.logradouro || '',
-          bairro: data.bairro || '',
-          cidade: data.localidade || '',
-          estado: data.uf || ''
-        }));
+
+      if (data.erro) {
+        setMensagem('CEP não encontrado');
+        return;
       }
+
+      setEndereco(prev => ({
+        ...prev,
+        logradouro: data.logradouro || '',
+        bairro: data.bairro || '',
+        localidade: data.localidade || '',
+        uf: data.uf || '',
+        complemento: data.complemento || prev.complemento // Mantém o complemento se já existir
+      }));
+
     } catch (error) {
-      // Você pode exibir uma mensagem de erro se quiser
+      setMensagem('Erro ao buscar CEP');
+      console.error('Erro na busca do CEP:', error);
+    } finally {
+      setLoadingCep(false);
     }
-  }
+  };
+
+  const formatarCampo = (name, value) => {
+    const apenasNumeros = value.replace(/\D/g, '');
+    
+    if (name === 'cpf') {
+      if (apenasNumeros.length <= 3) return apenasNumeros;
+      if (apenasNumeros.length <= 6) return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3)}`;
+      if (apenasNumeros.length <= 9) return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3, 6)}.${apenasNumeros.slice(6)}`;
+      return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3, 6)}.${apenasNumeros.slice(6, 9)}-${apenasNumeros.slice(9, 11)}`;
+    }
+    
+    if (name === 'telefone') {
+      if (apenasNumeros.length <= 2) return `(${apenasNumeros}`;
+      if (apenasNumeros.length <= 6) return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2)}`;
+      if (apenasNumeros.length <= 10) return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2, 6)}-${apenasNumeros.slice(6)}`;
+      return `(${apenasNumeros.slice(0, 2)}) ${apenasNumeros.slice(2, 7)}-${apenasNumeros.slice(7, 11)}`;
+    }
+    
+    if (name === 'cep') {
+      if (apenasNumeros.length <= 5) return apenasNumeros;
+      return `${apenasNumeros.slice(0, 5)}-${apenasNumeros.slice(5, 8)}`;
+    }
+    
+    return value;
+  };
+
+  const handleDadosChange = (e) => {
+    const { name, value } = e.target;
+    setDadosPessoais(prev => ({
+      ...prev,
+      [name]: formatarCampo(name, value)
+    }));
+  };
+
+  const handleEnderecoChange = (e) => {
+    const { name, value } = e.target;
+    setEndereco(prev => ({
+      ...prev,
+      [name]: formatarCampo(name, value)
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const response = await fetch('http://localhost:8080/cliente/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...dadosPessoais,
+          ...endereco
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar');
+      }
+
+      setMensagem('Cadastro realizado com sucesso!');
+      // Limpar formulários...
+      
+    } catch (error) {
+      setMensagem(error.message || 'Erro ao cadastrar');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <main>
-        <form onSubmit={handleSubmit} className="cadastro-form">
+      <main className="cadastro-container">
+        <form onSubmit={handleSubmit} className="form-dados-pessoais">
           <h2>Cadastro</h2>
-          <div>
-            <label htmlFor="nome">Nome</label>
+          
+          {mensagem && <div className={`mensagem ${mensagem.includes('sucesso') ? 'sucesso' : 'erro'}`}>
+            {mensagem}
+          </div>}
+          
+          <div className="campo">
+            <label>Nome Completo</label>
             <input
               type="text"
-              id="nome"
               name="nome"
-              value={form.nome}
-              onChange={handleChange}
+              value={dadosPessoais.nome}
+              onChange={handleDadosChange}
               required
-              placeholder="Digite seu nome"
             />
           </div>
-          <div>
-            <label htmlFor="cpf">CPF</label>
+          
+          <div className="campo">
+            <label>CPF</label>
             <input
               type="text"
-              id="cpf"
               name="cpf"
-              value={form.cpf}
-              onChange={handleChange}
+              value={dadosPessoais.cpf}
+              onChange={handleDadosChange}
+              maxLength="14"
+              placeholder="000.000.000-00"
               required
-              placeholder="Digite seu CPF"
-              maxLength={14}
             />
           </div>
-          <div>
-            <label htmlFor="dataDeNascimento">Data de Nascimento</label>
+          
+          <div className="campo">
+            <label>Data de Nascimento</label>
             <input
               type="date"
-              id="dataDeNascimento"
-              name="dataDeNascimento"
-              value={form.dataDeNascimento}
-              onChange={handleChange}
+              name="dataDeNascimento" // Nome do campo atualizado
+              value={dadosPessoais.dataDeNascimento}
+              onChange={handleDadosChange}
               required
             />
           </div>
-          <div>
-            <label htmlFor="genero">Gênero</label>
-            <select
-              id="genero"
-              name="genero"
-              value={form.genero}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione</option>
-              <option value="MASCULINO">Masculino</option>
-              <option value="FEMININO">Feminino</option>
-              <option value="OUTRO">Outro</option>
-              <option value="PREFIRO_NAO_DIZER">Prefiro não dizer</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="telefone">Telefone</label>
+          
+          <div className="campo">
+            <label>Telefone</label>
             <input
               type="tel"
-              id="telefone"
               name="telefone"
-              value={form.telefone}
-              onChange={handleChange}
-              required
+              value={dadosPessoais.telefone}
+              onChange={handleDadosChange}
+              maxLength="15"
               placeholder="(00) 00000-0000"
-              maxLength={15}
+              required
             />
           </div>
-          <div>
-            <label htmlFor="email">E-mail</label>
+          
+          <div className="campo">
+            <label>E-mail</label>
             <input
               type="email"
-              id="email"
               name="email"
-              value={form.email}
-              onChange={handleChange}
+              value={dadosPessoais.email}
+              onChange={handleDadosChange}
               required
-              placeholder="Digite seu e-mail"
             />
           </div>
-          <div>
-            <label htmlFor="senha">Senha</label>
+          
+          <div className="campo">
+            <label>Senha</label>
             <input
               type="password"
-              id="senha"
               name="senha"
-              value={form.senha}
-              onChange={handleChange}
+              value={dadosPessoais.senha}
+              onChange={handleDadosChange}
+              minLength="6"
               required
-              placeholder="Crie uma senha"
-              minLength={6}
             />
           </div>
-          <div>
-            <label htmlFor="confirmacaoSenha">Confirme a Senha</label>
+          
+          <div className="campo">
+            <label>Confirme a Senha</label>
             <input
               type="password"
-              id="confirmacaoSenha"
-              name="confirmacaoSenha"
-              value={form.confirmacaoSenha}
-              onChange={handleChange}
+              name="confirmaSenha"
+              value={dadosPessoais.confirmaSenha}
+              onChange={handleDadosChange}
+              minLength="6"
               required
-              placeholder="Confirme sua senha"
-              minLength={6}
             />
-            {erroSenha && (
-              <span style={{ color: 'red', fontSize: '0.95em' }}>{erroSenha}</span>
-            )}
           </div>
-          <button type="submit" disabled={!!erroSenha}>Cadastrar</button>
-          <a>Já tem uma conta? <Link to="/login" className="link-login" style={{ textDecoration: 'none', color: '#4f46e5', justifyContent: 'center', display: 'flex', marginTop: '10px'  }}>
-            Faça login
-          </Link></a>
+            <button 
+            type="button" 
+            onClick={handleSubmit} 
+            disabled={loading}
+            className="botao-cadastrar"
+          >
+            {loading ? 'Cadastrando...' : 'Cadastrar'}
+          </button>
+          
+          <div className="login-link">
+            Já tem uma conta? <Link to="/login">Faça login</Link>
+          </div>
         </form>
-     <form onSubmit={handleSubmit} className="endereco-form">
+
+        <form className="form-endereco">
           <h2>Endereço</h2>
-          {mensagem && <p className="success-message">{mensagem}</p>}
-         <div>
-            <label htmlFor="cep">CEP</label>
+          
+          {mensagem && <div className="mensagem">{mensagem}</div>}
+          
+          <div className="campo">
+            <label>CEP {loadingCep && <span className="loading">(Buscando...)</span>}</label>
             <input
               type="text"
-              id="cep"
               name="cep"
-              value={form.cep}
-              onChange={handleChange}
-              onBlur={handleCepBlur}
+              value={endereco.cep}
+              onChange={handleEnderecoChange}
+              maxLength="9"
+              placeholder="00000-000"
               required
-              placeholder="Digite seu CEP"
-              maxLength={9}
             />
           </div>
-          <div>
-            <label htmlFor="rua">Rua</label>
+          
+          <div className="campo">
+            <label>Logradouro</label>
             <input
               type="text"
-              id="rua"
-              name="rua"
-              value={form.rua}
-              onChange={handleChange}
+              name="logradouro"
+              value={endereco.logradouro}
+              onChange={handleEnderecoChange}
               required
-              placeholder="Digite o nome da rua"
+              readOnly={!!endereco.logradouro}
             />
           </div>
-          <div>
-            <label htmlFor="numero">Número</label>
+          
+          <div className="campo">
+            <label>Número</label>
             <input
               type="text"
-              id="numero"
               name="numero"
-              value={form.numero}
-              onChange={handleChange}
+              value={endereco.numero}
+              onChange={handleEnderecoChange}
               required
-              placeholder="Digite o Número"
-              maxLength={6}
             />
           </div>
-          <div>
-            <label htmlFor="complemento">Complemento</label>
+          
+          <div className="campo">
+            <label>Complemento</label>
             <input
               type="text"
-              id="complemento"
               name="complemento"
-              value={form.complemento}
-              onChange={handleChange}
-              placeholder="Apartamento, bloco, etc. (opcional)"
+              value={endereco.complemento}
+              onChange={handleEnderecoChange}
             />
           </div>
-          <div>
-            <label htmlFor="bairro">Bairro</label>
+          
+          <div className="campo">
+            <label>Bairro</label>
             <input
               type="text"
-              id="bairro"
               name="bairro"
-              value={form.bairro}
-              onChange={handleChange}
+              value={endereco.bairro}
+              onChange={handleEnderecoChange}
               required
-              placeholder="Digite o bairro"
+              readOnly={!!endereco.bairro}
             />
           </div>
-          <div>
-            <label htmlFor="cidade">Cidade</label>
-            <input
-              type="text"
-              id="cidade"
-              name="cidade"
-              value={form.cidade}
-              onChange={handleChange}
-              required
-              placeholder="Digite a cidade"
-            />
+          
+          <div className="campo-dupla">
+            <div className="campo">
+              <label>Cidade</label>
+              <input
+                type="text"
+                name="localidade"
+                value={endereco.localidade}
+                onChange={handleEnderecoChange}
+                required
+                readOnly={!!endereco.localidade}
+              />
+            </div>
+            
+            <div className="campo">
+              <label>UF</label>
+              <input
+                type="text"
+                name="uf"
+                value={endereco.uf}
+                onChange={handleEnderecoChange}
+                maxLength="2"
+                required
+                readOnly={!!endereco.uf}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="estado">Estado</label>
-            <input
-              type="text"
-              id="estado"
-              name="estado"
-              value={form.estado}
-              onChange={handleChange}
-              required
-              placeholder="Digite o estado"
-              maxLength={2}
-              style={{ textTransform: 'uppercase' }}
-            />
-          </div>
+
         </form>
       </main>
       <Footer />
