@@ -20,7 +20,7 @@ export function AtivarConta() {
       const params = new URLSearchParams();
       params.append("email", email);
       params.append("token", token);
-      const response = await fetch("http://localhost:8080/ativarConta", {
+      const response = await fetch("http://localhost:8080/cliente/ativarConta", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

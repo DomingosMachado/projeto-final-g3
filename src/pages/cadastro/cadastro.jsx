@@ -3,7 +3,7 @@ import { Navbar } from "../../components/Navbar/navbar.jsx";
 import { Footer } from "../../components/Footer/footer.jsx";
 import "./cadastro.css";
 import { Link, useNavigate } from "react-router-dom";
-
+// cpf cadastrado igual nao da erro 
 export function Cadastro() {
   const navigate = useNavigate();
   const [dadosPessoais, setDadosPessoais] = useState({
@@ -267,39 +267,55 @@ export function Cadastro() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  
+  setMensagem("");
+  setLoading(true);
+  setErros({ ...erros, cpf: "" });
+
   if (!validarFormulario()) {
-    setMensagem('Por favor, corrija os erros no formulário');
+    setLoading(false);
     return;
   }
 
-  setLoading(true);
-  setMensagem('');
-  
   try {
-    const response = await fetch('http://localhost:8080/cliente/cadastro', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...dadosPessoais,
-        ...endereco
-      }),
+    const response = await fetch("http://localhost:8080/cliente/cadastro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...dadosPessoais, ...endereco }),
     });
 
+    let errorText = "";
+    let data = {};
+
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erro ao cadastrar');
+      // Tenta ler como JSON, se falhar, lê como texto puro
+      try {
+        data = await response.json();
+        errorText = data.message || JSON.stringify(data);
+      } catch {
+        errorText = await response.text();
+      }
+
+      // Procura por CPF duplicado em qualquer mensagem
+      if (
+        errorText.toLowerCase().includes("cpf") 
+        
+      ) {
+        setErros((prev) => ({
+          ...prev,
+          cpf: "Este CPF já está cadastrado.",
+        }));
+        setMensagem(""); // Limpa mensagem geral
+      } else {
+        setMensagem("Erro ao cadastrar: " + errorText);
+      }
+      setLoading(false);
+      return;
     }
 
-    const data = await response.json();
-    setMensagem('Cadastro realizado com sucesso!');
-    setTimeout(() => navigate('/ativarConta'), 2000);
-    
+    setMensagem("Cadastro realizado com sucesso! Verifique seu e-mail.");
+    // Redirecionar ou limpar formulário se desejar
   } catch (error) {
-    console.error('Erro na requisição:', error);
-    setMensagem(error.message || 'Erro ao enviar formulário');
+    setMensagem("Erro ao cadastrar. Tente novamente.");
   } finally {
     setLoading(false);
   }
