@@ -11,12 +11,11 @@ function Login() {
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const resposta = await ApiService.login(login, senha);
-    const token = resposta.token;
+    const token = await ApiService.login(login, senha);
     if (token) {
       localStorage.setItem("token", token); // token no localStorage
       alert("Login realizado com sucesso!");
-      navigate("/home");
+      navigate("/");
     } else {
       alert("Token não recebido!");
     }
