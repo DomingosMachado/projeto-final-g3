@@ -1,0 +1,157 @@
+.main {
+  min-height: 80vh;
+  padding: 3rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  color: #fff;
+}
+
+.loading {
+  text-align: center;
+  color: #fff;
+  margin-top: 4rem;
+}
+
+.loading p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.error {
+  text-align: center;
+  color: #fff;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.error h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffd6d6;
+}
+
+.error p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.produtoContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.08);
+  padding: 2.5rem 2rem;
+  align-items: flex-start;
+  backdrop-filter: blur(2px);
+}
+
+.imagemBox {
+  flex: 1 1 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+.imagem {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(102, 126, 234, 0.13);
+  background: #f3f4f6;
+  object-fit: cover;
+}
+
+.infoBox {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 280px;
+}
+
+.nome {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.descricao {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.precoBox {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.preco {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.precoPromocional {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffd6d6;
+  text-decoration: line-through;
+}
+
+.estoque,
+.categoria,
+.fabricante,
+.status {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.voltar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.voltar:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+@media (max-width: 900px) {
+  .produtoContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0.5rem;
+  }
+  .imagemBox {
+    min-width: 220px;
+    max-width: 100%;
+  }
+  .infoBox {
+    min-width: 0;
+    width: 100%;
+  }
+}

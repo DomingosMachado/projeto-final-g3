@@ -188,6 +188,92 @@
   margin: 3rem 0;
 }
 
+.skeletonCard {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  border-radius: 20px;
+  height: 340px;
+  width: 280px;
+  margin: 0 auto;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.gridProdutos {
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* CARROSSEL HORIZONTAL */
+.carrosselContainer {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.carrossel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 1rem 0;
+  margin: 0 -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.carrossel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.carrossel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.carrossel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.carrossel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.cardWrapper {
+  flex: 0 0 280px;
+  min-width: 280px;
+}
+
+/* ESTILOS PARA ÁREA CLICÁVEL DO CARD */
+.areaClicavel {
+  transition: transform 0.2s ease;
+}
+
+.areaClicavel:hover {
+  transform: translateY(-2px);
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .hero {

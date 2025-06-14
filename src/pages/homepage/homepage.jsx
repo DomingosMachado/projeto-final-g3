@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import styles from "./home.module.css";
 import { Navbar } from "../../components/Navbar/navbar.jsx";
 import { Footer } from "../../components/Footer/footer.jsx";
-import { CarrosselCategoria } from "../../components/CarrosselCategoria/CarrosselCategoria.jsx";
 import { BarraPesquisa } from "../../components/BarraPesquisa/barrapesquisa.jsx";
 import { CardProduto } from "../../components/CardProduto/cardproduto.jsx";
+import { CarrosselInfinito } from "../../components/CarrosselCategoria/CarrosselCategoria.jsx";
 import ApiService from "../../services/api.js";
+import toast, { Toaster } from "react-hot-toast";
 import { useCarrinho } from "../../context/carrinhoContext.jsx";
 
 export function Homepage() {
@@ -15,72 +16,50 @@ export function Homepage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const {adcAoCarrinho, carrinhoItens} = useCarrinho();
+  // Contexto do carrinho
+  let carrinhoData = { adcAoCarrinho: () => {}, carrinhoItens: [] };
+  try {
+    carrinhoData = useCarrinho();
+  } catch (err) {
+    console.error("❌ Erro no contexto do carrinho:", err);
+  }
 
-  const handleBusca = (valorBusca) => {
-    console.log("🏠 Homepage - Recebeu busca:", valorBusca);
-    setBusca(valorBusca);
-  };
+  const { adcAoCarrinho, carrinhoItens } = carrinhoData;
 
+  // Carregar dados da API
   useEffect(() => {
     const carregarDados = async () => {
       try {
         setLoading(true);
-
         const [produtosData, categoriasData] = await Promise.all([
           ApiService.getProdutos(),
           ApiService.getCategorias(),
         ]);
-
-        console.log("✅ Produtos carregados:", produtosData);
-        console.log("✅ Categorias carregadas:", categoriasData);
-
         setProdutos(produtosData || []);
         setCategorias(categoriasData || []);
       } catch (err) {
         console.error("❌ Erro ao carregar dados:", err);
-        setError("Erro ao carregar produtos: " + err.message);
+        setError(`Erro: ${err.message}`);
       } finally {
         setLoading(false);
       }
     };
-
     carregarDados();
   }, []);
 
-  const produtosPorCategoria = () => {
-    return categorias
-      .filter((categoria) => categoria && categoria.id)
-      .map((categoria) => {
-        const produtosCategoria = produtos.filter(
-          (produto) => produto && produto.idCategoria === categoria.id
-        );
-
-        return {
-          categoria,
-          produtos: produtosCategoria,
-        };
-      })
-      .filter((item) => item.produtos.length > 0);
-  };
-
+  // Função para filtrar produtos por busca
   const produtosFiltrados = () => {
-    if (!busca || !busca.trim()) {
-      return [];
-    }
+    if (!busca || !busca.trim()) return [];
 
     const termoBusca = busca.toLowerCase().trim();
-
     return produtos.filter((produto) => {
       if (!produto) return false;
 
       const nomeMatch =
         produto.nome && produto.nome.toLowerCase().includes(termoBusca);
-
       const descricaoMatch =
         produto.descricao &&
         produto.descricao.toLowerCase().includes(termoBusca);
-
       const categoria = categorias.find(
         (cat) => cat.id === produto.idCategoria
       );
@@ -93,8 +72,20 @@ export function Homepage() {
     });
   };
 
-  const produtosFiltradosArray = produtosFiltrados();
+  // Produtos por categoria
+  const produtosPorCategoria = () => {
+    return categorias
+      .filter((categoria) => categoria && categoria.id)
+      .map((categoria) => {
+        const produtosCategoria = produtos.filter(
+          (produto) => produto && produto.idCategoria === categoria.id
+        );
+        return { categoria, produtos: produtosCategoria };
+      })
+      .filter((item) => item.produtos.length > 0);
+  };
 
+  // Função para formatar preço
   const formatarPreco = (produto) => {
     if (
       produto.precoPromocional &&
@@ -105,23 +96,30 @@ export function Homepage() {
     return produto.preco?.toFixed(2) || "0.00";
   };
 
+  // Função para adicionar produto
   const handleAdicionarProduto = (produto) => {
-     if (produto.estoque === 0) {
-    alert("Produto esgotado!");
-    return;
-  }
-  const itemExistente = carrinhoItens.find(item => item.produto.id === produto.id);
+     const itemExistente = carrinhoItens.find(item => item.produto.id === produto.id);
 
   if (itemExistente && itemExistente.quantidade >= produto.estoque) {
     alert("Você já adicionou a quantidade máxima disponível em estoque.");
     return;
   }
   else{
-    adcAoCarrinho(produto)
-    console.log("🛒 Produto adicionado:", produto);
-    alert(`Produto "${produto.nome}" adicionado ao carrinho!`);}
+     adcAoCarrinho(produto);
+    toast.success(`Produto "${produto.nome}" adicionado ao carrinho!`);}
   };
 
+  // Função slugify
+  function slugify(str) {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+  }
+
+  // Estados de loading e error
   if (loading) {
     return (
       <>
@@ -129,7 +127,6 @@ export function Homepage() {
         <main className={styles.main}>
           <div className={styles.loading}>
             <h2>Carregando produtos...</h2>
-            <p>Aguarde um momento</p>
           </div>
         </main>
         <Footer />
@@ -158,8 +155,10 @@ export function Homepage() {
     );
   }
 
+  // Renderização principal
   return (
     <>
+      <Toaster position="top-right" />
       <Navbar />
       <main className={styles.main}>
         <div className={styles.hero}>
@@ -170,12 +169,17 @@ export function Homepage() {
           <BarraPesquisa onPesquisar={setBusca} />
         </div>
 
-        {/* Se houver busca, mostra resultados */}
+        {/* Exibir resultados da busca ou produtos por categoria */}
         {busca.trim() ? (
+          // Resultados da busca
           <div className={styles.resultadosBusca}>
+            <h3 className={styles.tituloSecao}>
+              {produtosFiltrados().length} produto(s) encontrado(s) para "
+              {busca}"
+            </h3>
             <div className={styles.gridProdutos}>
-              {produtosFiltradosArray.length > 0 ? (
-                produtosFiltradosArray.map((produto) => (
+              {produtosFiltrados().length > 0 ? (
+                produtosFiltrados().map((produto) => (
                   <CardProduto
                     key={produto.id}
                     imagem={ApiService.getFotoProduto(produto.id)}
@@ -183,6 +187,12 @@ export function Homepage() {
                     preco={formatarPreco(produto)}
                     estoque={produto.estoque}
                     onAdicionar={() => handleAdicionarProduto(produto)}
+                    abrirLink={() => {
+                      window.open(
+                        `/produto/${slugify(produto.nome)}`,
+                        "_blank"
+                      );
+                    }}
                   />
                 ))
               ) : (
@@ -196,16 +206,17 @@ export function Homepage() {
             </div>
           </div>
         ) : (
-          /* Carrosséis quando não há busca */
+          // Produtos organizados por categoria
           <div className={styles.categorias}>
             {produtosPorCategoria().map(
               ({ categoria, produtos: produtosCategoria }) => (
-                <CarrosselCategoria
-                  key={categoria.id}
-                  categoria={categoria}
-                  produtos={produtosCategoria}
-                  onAdicionarProduto={handleAdicionarProduto}
-                />
+                <div key={categoria.id} className={styles.categoriaSecao}>
+                  <CarrosselInfinito
+                    categoria={categoria}
+                    produtos={produtosCategoria}
+                    onAdicionarProduto={handleAdicionarProduto}
+                  />
+                </div>
               )
             )}
           </div>

@@ -13,13 +13,13 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.logo {
+/* .logo {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
-}
+} */
 
-.logoText {
+/* .logoText {
   margin: 0;
   font-size: 1.75rem;
   font-weight: 700;
@@ -28,6 +28,12 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.5px;
+} */
+
+.logoImage {
+  height: 100%;
+  width: auto;
+  max-height: 80px;
 }
 
 .navItens {
@@ -108,6 +114,10 @@
 
 .menuBtn:active {
   transform: scale(0.95);
+}
+
+.carrinhoLink {
+  position: relative;
 }
 
 @media (max-width: 768px) {

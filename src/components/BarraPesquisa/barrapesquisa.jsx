@@ -21,7 +21,7 @@ export function BarraPesquisa({ onPesquisar }) {
         <span className={styles.icone}>🔍</span>
         <input
           type="text"
-          placeholder="Busque por produtos, categorias ou descrições..."
+          placeholder="Busque pelos nossos produtos..."
           value={valor}
           onChange={handleChange}
           className={styles.input}

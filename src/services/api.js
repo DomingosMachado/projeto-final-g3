@@ -36,6 +36,7 @@ class ApiService {
   // Produtos
   static async getProdutos() {
     return this.get("/produtos");
+    return this.get("/produtos");
   }
 
   static async getProdutoById(id) {
@@ -51,31 +52,32 @@ class ApiService {
   // Categorias
   static async getCategorias() {
     return this.get("/categorias");
+    return this.get("/categorias");
   }
   // Login
   static async login(email, senha) {
-  try {
-    const params = new URLSearchParams();
-    params.append("email", email);
-    params.append("senha", senha);
+    try {
+      const params = new URLSearchParams();
+      params.append("email", email);
+      params.append("senha", senha);
 
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: params.toString()
-    });
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: params.toString(),
+      });
 
-    if (!response.ok) {
-      throw new Error('Usuário ou senha inválidos');
+      if (!response.ok) {
+        throw new Error("Usuário ou senha inválidos");
+      }
+
+      const token = await response.text(); // <- pega string diretamente
+      return token;
+    } catch (error) {
+      throw error;
     }
-
-    const token = await response.text(); // <- pega string diretamente
-    return token;
-  } catch (error) {
-    throw error;
   }
-}
 }
 export default ApiService;
