@@ -306,6 +306,8 @@ export function Cadastro() {
 };
 
   return (
+
+    //Transformando o componente Cadastro em proximo componente para endereço 
     <>
       <Navbar />
       <main className="cadastro-container">
@@ -417,6 +419,9 @@ export function Cadastro() {
 
           <div className="login-link">
             Já tem uma conta? <Link to="/login">Faça login</Link>
+          </div>
+          <div className="ativar-conta-link">
+            <Link to="/ativarConta" style={{ margin: "auto", display: "block", textAlign: "center", fontSize: "0.8rem", color: "#4f46e5", fontWeight: "bold", textDecoration: "none" }}>Ative sua conta</Link>
           </div>
         </form>
 
