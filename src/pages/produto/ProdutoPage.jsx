@@ -23,48 +23,133 @@ export default function ProdutoPage() {
 
   useEffect(() => {
     const fetchProduto = async () => {
+      console.log("🔍 ProdutoPage: Iniciando busca", {
+        nomeParam: nome,
+        nomeDecoded: decodeURIComponent(nome || ""),
+      });
+
       setLoading(true);
       setError(null);
+
       try {
         const produtos = await ApiService.getProdutos();
-        // Busca por slug do nome
-        const prod = produtos.find(
-          (p) => slugify(p.nome) === nome.toLowerCase()
+        console.log("📦 ProdutoPage: Total produtos:", produtos?.length || 0);
+
+        if (!produtos || produtos.length === 0) {
+          setError("Nenhum produto encontrado no sistema.");
+          return;
+        }
+
+        // Normalizar o nome da URL
+        const nomeNormalizado = decodeURIComponent(nome || "")
+          .toLowerCase()
+          .trim();
+        console.log("🔤 Nome normalizado:", nomeNormalizado);
+
+        // Buscar produto - tentar várias estratégias
+        let produtoEncontrado = null;
+
+        // Estratégia 1: Por slug exato
+        produtoEncontrado = produtos.find(
+          (p) => slugify(p.nome) === nomeNormalizado
         );
-        setProduto(prod || null);
-        if (!prod) setError("Produto não encontrado.");
+
+        // Estratégia 2: Por nome exato (caso insensitive)
+        if (!produtoEncontrado) {
+          produtoEncontrado = produtos.find(
+            (p) => p.nome.toLowerCase().trim() === nomeNormalizado
+          );
+        }
+
+        // Estratégia 3: Por slug contendo o termo
+        if (!produtoEncontrado) {
+          produtoEncontrado = produtos.find(
+            (p) =>
+              slugify(p.nome).includes(nomeNormalizado) ||
+              nomeNormalizado.includes(slugify(p.nome))
+          );
+        }
+
+        // Log para debug
+        console.log("🎯 Produto encontrado:", produtoEncontrado);
+        console.log(
+          "📋 Primeiros 3 produtos disponíveis:",
+          produtos.slice(0, 3).map((p) => ({
+            id: p.id,
+            nome: p.nome,
+            slug: slugify(p.nome),
+          }))
+        );
+
+        if (produtoEncontrado) {
+          setProduto(produtoEncontrado);
+          console.log("✅ Produto carregado:", produtoEncontrado.nome);
+        } else {
+          console.warn("❌ Produto não encontrado para:", nomeNormalizado);
+          setError(`Produto "${decodeURIComponent(nome)}" não encontrado.`);
+        }
       } catch (err) {
-        setError("Erro ao buscar produto.");
+        console.error("❗ Erro ao buscar produto:", err);
+        setError("Erro ao carregar produto: " + err.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduto();
-  }, [nome]);
 
+    if (nome) {
+      fetchProduto();
+    } else {
+      setError("Nome do produto não fornecido.");
+      setLoading(false);
+    }
+  }, [nome]);
   if (loading) {
     return (
       <>
         <Navbar />
         <main className={styles.main}>
-          <div className={styles.loading}>Carregando...</div>
+          <div className={styles.loading}>
+            <div className="skeleton-loader">
+              <div className="skeleton-card"></div>
+            </div>
+            <p>Carregando produto...</p>
+          </div>
         </main>
         <Footer />
       </>
     );
   }
 
-  if (error || !produto) {
+  if (error) {
     return (
       <>
         <Navbar />
         <main className={styles.main}>
           <div className={styles.error}>
-            {error || "Produto não encontrado."}
+            <h2>Ops! Algo deu errado</h2>
+            <p>{error}</p>
+            <Link to="/" className={styles.voltar}>
+              🏠 Voltar para a loja
+            </Link>
           </div>
-          <Link to="/" className={styles.voltar}>
-            Voltar para a loja
-          </Link>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!produto) {
+    return (
+      <>
+        <Navbar />
+        <main className={styles.main}>
+          <div className={styles.error}>
+            <h2>Produto não encontrado</h2>
+            <p>O produto que você está procurando não foi encontrado.</p>
+            <Link to="/" className={styles.voltar}>
+              🏠 Voltar para a loja
+            </Link>
+          </div>
         </main>
         <Footer />
       </>

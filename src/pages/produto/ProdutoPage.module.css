@@ -7,16 +7,36 @@
 
 .loading {
   text-align: center;
-  font-size: 1.5rem;
   color: #fff;
   margin-top: 4rem;
+}
+
+.loading p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
 .error {
   text-align: center;
   color: #fff;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.error h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffd6d6;
+}
+
+.error p {
   font-size: 1.2rem;
-  margin: 2rem 0;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
 }
 
 .produtoContainer {
