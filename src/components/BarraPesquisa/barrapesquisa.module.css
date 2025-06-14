@@ -1,19 +1,79 @@
 .barraPesquisa {
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto 2rem auto;
-  display: flex;
-  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
 }
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.inputContainer:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+}
+
+.icone {
+  position: absolute;
+  left: 1rem;
+  font-size: 1.2rem;
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .input {
   width: 100%;
-  padding: 0.7rem 1.2rem;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
+  padding: 1rem 1rem 1rem 3rem;
+  border: none;
+  border-radius: 12px;
   font-size: 1rem;
+  color: #374151;
+  background: transparent;
   outline: none;
-  transition: border 0.2s;
 }
-.input:focus {
-  border-color: #667eea;
+
+.input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.btnLimpar {
+  position: absolute;
+  right: 0.5rem;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnLimpar:hover {
+  background: #dc2626;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .input {
+    font-size: 0.95rem;
+    padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+  }
+
+  .input::placeholder {
+    font-size: 0.9rem;
+  }
 }

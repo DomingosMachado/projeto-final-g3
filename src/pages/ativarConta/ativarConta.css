@@ -1,48 +1,38 @@
-.cadastro-container {
+/* Container principal */
+.ativar-conta-container {
+  min-height: 80vh;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 200px;
   padding: 2rem 1rem;
 }
 
-.form-dados-pessoais,
-.form-endereco {
-  display: flex;
-  margin: auto 2px;
-  flex-direction: column;
+.ativar-conta-card {
   background: #fff;
-  padding: 13px 30px;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
   border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  max-width: 400px;
   width: 100%;
-  height: 60%;
-  max-width: 390px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  background: linear-gradient(135deg, #ffffff 0%, #faf0e9 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
 }
 
-.form-dados-pessoais:hover,
-.form-endereco:hover {
-  transform: translateY(-5px);
-}
-
-.form-dados-pessoais h2,
-.form-endereco h2 {
-  margin-bottom: 5px;
+.ativar-conta-card h2 {
   color: #4f46e5;
-  text-align: center;
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  text-align: center;
   position: relative;
   padding-bottom: 10px;
 }
 
-.form-dados-pessoais h2::after,
-.form-endereco h2::after {
+.ativar-conta-card h2::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -54,31 +44,33 @@
   border-radius: 3px;
 }
 
+.ativar-conta-card p {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.ativar-conta-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .campo {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  margin-bottom: 1rem;
 }
 
 .campo label {
-
   color: #000000;
-  font-size: 0.8rem;
- 
-}
-.erro-mensagem  {
-  font-weight: 0;
-  text-decoration: none;
-  font-size: 12px;
-  color: #000000;
-  font-style: italic;
-  font-weight:lighter
-  
+  font-size: 0.9rem;
 }
 
-.form-dados-pessoais input,
-.form-endereco input {
+.ativar-conta-card input[type="email"],
+.ativar-conta-card input[type="text"] {
   padding: 0.75rem 1rem;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
@@ -88,15 +80,15 @@
   outline: none;
 }
 
-.form-dados-pessoais input:focus,
-.form-endereco input:focus {
+.ativar-conta-card input[type="email"]:focus,
+.ativar-conta-card input[type="text"]:focus {
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
   background: #fff;
 }
 
-.botao-cadastrar {
-  margin-top: 1rem;
+button[type="submit"] {
+  margin-top: 0.5rem;
   padding: 0.75rem;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
@@ -110,40 +102,21 @@
   box-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);
 }
 
-.botao-cadastrar:hover {
+button[type="submit"]:hover {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(99, 102, 241, 0.15);
 }
 
-.botao-cadastrar:disabled {
+button[type="submit"]:disabled {
   background: #cbd5e1;
   transform: none;
   cursor: not-allowed;
 }
 
-.login-link {
-  margin-top: 1.5rem;
-  text-align: center;
-  font-size: 0.95rem;
-  color: #64748b;
-}
-
-.login-link a {
-  color: #6366f1;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.login-link a:hover {
-  color: #4f46e5;
-  text-decoration: underline;
-}
-
 .mensagem {
   padding: 0.75rem 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   border-radius: 8px;
   font-size: 0.95rem;
   text-align: center;
@@ -161,39 +134,20 @@
   border: 1px solid #fecaca;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .cadastro-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .form-dados-pessoais,
-  .form-endereco {
-    max-width: 500px;
-  }
-}
-
 @media (max-width: 600px) {
-  .form-dados-pessoais,
-  .form-endereco {
-    padding: 1.5rem;
+  .ativar-conta-card {
+    padding: 1.5rem 0.75rem;
     max-width: 100%;
   }
-
-  .form-dados-pessoais h2,
-  .form-endereco h2 {
-    font-size: 1.2rem;
+  .ativar-conta-card h2 {
+    font-size: 1.1rem;
   }
-
-  .form-dados-pessoais input,
-  .form-endereco input {
+  .ativar-conta-card input[type="email"],
+  .ativar-conta-card input[type="text"] {
     padding: 0.65rem 0.9rem;
     font-size: 0.95rem;
   }
-
-  .botao-cadastrar {
+  button[type="submit"] {
     padding: 0.65rem;
     font-size: 0.95rem;
   }

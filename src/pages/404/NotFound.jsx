@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Ballpit from './Ballpit'; // Ajuste o caminho conforme necessário
-import './NotFound.css'; // Criaremos este arquivo CSS
+import Ballpit from './Ballpit'; 
+import './NotFound.css'; 
 
 const NotFound = () => {
   return (
@@ -17,8 +17,6 @@ const NotFound = () => {
 
         />
       </div>
-      
-      {/* Conteúdo da página 404 */}
       <div className="not-found-content">
         <h1 className="not-found-title">404</h1>
         <h2 className="not-found-subtitle">Página não encontrada</h2>
