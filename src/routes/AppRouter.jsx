@@ -4,6 +4,7 @@ import { Carrinho } from "../pages/carrinho/carrinho.jsx";
 import Login from "../pages/login/login.jsx";
 import { Cadastro } from "../pages/cadastro/cadastro.jsx";
 import NotFound from "../pages/404/NotFound.jsx"
+import { AtivarConta } from "../pages/ativarConta/AtivarConta.jsx";
 
 
 export function AppRouter() {
@@ -16,6 +17,7 @@ export function AppRouter() {
       <Route path="*" element={<NotFound/>} />
       <Route path="/carrinho" element={<Carrinho/>}/> 
       <Route path="/login" element={<Login/>}/> 
+      <Route path="/ativarConta" element={<AtivarConta/>}/> 
     
     </Routes>
   );
