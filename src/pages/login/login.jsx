@@ -9,21 +9,20 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const resposta = await ApiService.login(login, senha);
-    const token = resposta.token;
-    if (token) {
-      localStorage.setItem("token", token); // token no localStorage
-      alert("Login realizado com sucesso!");
-      navigate("/home");
-    } else {
-      alert("Token não recebido!");
+    e.preventDefault();
+    try {
+      const token = await ApiService.login(login, senha);
+      if (token) {
+        localStorage.setItem("token", token); // token no localStorage
+        alert("Login realizado com sucesso!");
+        navigate("/");
+      } else {
+        alert("Token não recebido!");
+      }
+    } catch (error) {
+      alert(error.message || "Erro ao fazer login");
     }
-  } catch (error) {
-    alert(error.message || "Erro ao fazer login");
-  }
-};
+  };
 
   return (
     <div>

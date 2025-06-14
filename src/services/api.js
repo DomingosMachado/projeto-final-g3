@@ -1,33 +1,32 @@
 import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = "http://localhost:8080";
 
 export const localApi = axios.create({
-    baseURL : 'http://localhost:8080'
- })
- 
+  baseURL: "http://localhost:8080",
+});
+
 class ApiService {
   static async get(endpoint) {
     console.log(`🔄 Fazendo requisição para: ${API_BASE_URL}${endpoint}`);
-    
+
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      
+
       console.log(`📡 Resposta da API:`, response.status, response.statusText);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log(`✅ Dados recebidos:`, data);
       return data;
-      
     } catch (error) {
       console.error(`❌ Erro na requisição para ${endpoint}:`, error);
       throw error;
@@ -36,7 +35,7 @@ class ApiService {
 
   // Produtos
   static async getProdutos() {
-    return this.get('/produtos');
+    return this.get("/produtos");
   }
 
   static async getProdutoById(id) {
@@ -51,25 +50,29 @@ class ApiService {
 
   // Categorias
   static async getCategorias() {
-    return this.get('/categorias');
+    return this.get("/categorias");
   }
   // Login
-  static async login(login, senha) {
+  static async login(email, senha) {
     try {
+      const params = new URLSearchParams();
+      params.append("email", email);
+      params.append("senha", senha);
+
       const response = await fetch(`${API_BASE_URL}/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({ login, senha }),
+        body: params.toString(),
       });
 
       if (!response.ok) {
-        throw new Error('Usuário ou senha inválidos');
+        throw new Error("Usuário ou senha inválidos");
       }
 
-      const data = await response.json();
-      return data;
+      const token = await response.text(); // <- pega string diretamente
+      return token;
     } catch (error) {
       throw error;
     }
