@@ -68,7 +68,7 @@ function Login() {
           <button type="submit">Login</button>
         </form>
         <div className="login-links">
-          <a href="#" className="criar-conta">
+          <a href="/cadastro" className="criar-conta">
             Criar conta
           </a>
           <span> | </span>
