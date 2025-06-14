@@ -15,7 +15,10 @@
     "axios": "^1.9.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+<<<<<<< HEAD
     "react-hot-toast": "^2.5.2",
+=======
+>>>>>>> 557fd7a4e9138a36dcfb168b206c36cb9777b88e
     "react-router-dom": "^7.6.2",
     "three": "^0.177.0"
   },

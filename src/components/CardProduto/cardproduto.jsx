@@ -13,37 +13,28 @@ export function CardProduto({
     e.target.src = "https://via.placeholder.com/300x200?text=Sem+Foto";
   };
 
-  const esgotado = estoque === 0;
-
+const estoqueNumerico = Number(estoque ?? 0);
+const esgotado = estoqueNumerico <= 0;
+ console.log("Produto:", nome, " Estoque", estoque);
   return (
+    
     <div className={styles.cardProduto}>
-      <div
-        className={styles.cardLinkArea}
-        onClick={abrirLink}
-        style={{ cursor: "pointer" }}
-        tabIndex={0}
-        role="button"
-        aria-label={`Ver detalhes de ${nome}`}
-      >
-        <img
-          src={imagem}
-          alt={nome || "Produto"}
-          className={styles.imagem}
-          onError={handleImageError}
-        />
-        <div className={styles.nome}>{nome || "Nome não disponível"}</div>
-      </div>
-      <div className={styles.footerCard}>
-        <div className={styles.preco}>R$ {preco}</div>
-        <button
-          className={styles.btnAdicionar}
-          onClick={(e) => {
-            e.stopPropagation(); // impede que o click no botão propague para o link
-            onAdicionar();
-          }}
-        >
-          + Adicionar
-        </button>
+      <img
+        src={imagem}
+        alt={nome || "Produto"}
+        className={styles.imagem}
+        onError={handleImageError}
+      />
+      <div className={styles.infoProduto}>
+        <h3 className={styles.nome}>
+          {nome || "Nome não disponível"}
+        </h3>
+        <div className={styles.footerCard}>
+          <span className={styles.preco}>R$ {preco}</span>
+          <Botao  disabled={esgotado} onClick={onAdicionar} className={estoque === 0 ? styles.btnEsgotado : styles.btnAdicionar}>
+            {esgotado ? "ESGOTADO" : "+ Adicionar"}
+          </Botao>
+        </div>
       </div>
     </div>
   );

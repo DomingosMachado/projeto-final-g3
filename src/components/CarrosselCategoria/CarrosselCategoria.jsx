@@ -114,13 +114,8 @@ export function CarrosselCategoria({
             <CardProduto
               imagem={ApiService.getFotoProduto(produto.id)}
               nome={produto.nome}
-              preco={
-                produto.precoPromocional &&
-                produto.precoPromocional !== produto.preco
-                  ? produto.precoPromocional.toFixed(2)
-                  : produto.preco?.toFixed(2) || "0.00"
-              }
-              estoque={produto.estoque}
+              preco={formatarPreco(produto)}
+              estoque={produto.estoque} 
               onAdicionar={() => onAdicionarProduto(produto)}
               abrirLink={() => {
                 if (!dragging) {

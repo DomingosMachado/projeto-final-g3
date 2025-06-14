@@ -68,7 +68,7 @@ export const CarrinhoC = ({ children }) => {
             navigate("/login");
             return;
         }
-
+console.log("Enviando token:", `Bearer ${token}`);
         try {
             const promises = carrinhoItens.map(({ produto, quantidade }) =>
                 localApi.post(
