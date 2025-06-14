@@ -6,9 +6,11 @@ export function CardProduto({ imagem, nome, preco, onAdicionar, estoque }) {
     e.target.src = "https://via.placeholder.com/300x200?text=Sem+Foto";
   };
 
-  const esgotado = estoque === 0;
-
+const estoqueNumerico = Number(estoque ?? 0);
+const esgotado = estoqueNumerico <= 0;
+ console.log("Produto:", nome, " Estoque", estoque);
   return (
+    
     <div className={styles.cardProduto}>
       <img
         src={imagem}
@@ -22,8 +24,8 @@ export function CardProduto({ imagem, nome, preco, onAdicionar, estoque }) {
         </h3>
         <div className={styles.footerCard}>
           <span className={styles.preco}>R$ {preco}</span>
-          <Botao className={styles.btnAdicionar} disabled={esgotado} onClick={onAdicionar}>
-            {esgotado ? "Esgotado" : "+ Adicionar"}
+          <Botao  disabled={esgotado} onClick={onAdicionar} className={estoque === 0 ? styles.btnEsgotado : styles.btnAdicionar}>
+            {esgotado ? "ESGOTADO" : "+ Adicionar"}
           </Botao>
         </div>
       </div>
