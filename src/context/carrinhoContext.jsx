@@ -61,14 +61,14 @@ export const CarrinhoC = ({ children }) => {
             alert("Seu carrinho está vazio!");
             return;
         }
-        const token = localStorage.getItem("token"); //quando fizermos o login, tem que armazenar o token e eu uso ele aqui
+        const token = localStorage.getItem("token") //quando fizermos o login, tem que armazenar o token e eu uso ele aqui
 
         if (!token) {
-            alert("Você precisa estar logado para finalizar a compra."); //trocar depois
-            navigate("/login");
+            alert("Você precisa estar logado para finalizar a compra.") //trocar depois
+            navigate("/login")
             return;
         }
-console.log("Enviando token:", `Bearer ${token}`);
+    console.log("Token:", `Bearer ${token}`)
         try {
             const promises = carrinhoItens.map(({ produto, quantidade }) =>
                 localApi.post(
@@ -86,15 +86,13 @@ console.log("Enviando token:", `Bearer ${token}`);
                 )
             );
 
-            const responses = await Promise.all(promises);
-
-            console.log("Todos os produtos adicionados ao pedido!", responses);
+            const responses = await Promise.all(promises)
             setCarrinhoItens([]);
             alert("Compra finalizada com sucesso!"); //mudar o alerta depois (sweetalert ou toastify?)
             navigate("/");
         } catch (error) {
-            console.error("Erro ao finalizar compra:", error);
-            alert("Erro ao finalizar compra.");
+            console.error("Erro ao finalizar compra:", error)
+            alert("Erro ao finalizar compra.")
         }
     };
 
@@ -115,4 +113,4 @@ console.log("Enviando token:", `Bearer ${token}`);
     )
 }
 export default CarrinhoC; //corrigindo 
-export const useCarrinho = () => useContext(CarrinhoContext);
+export const useCarrinho = () => useContext(CarrinhoContext)
