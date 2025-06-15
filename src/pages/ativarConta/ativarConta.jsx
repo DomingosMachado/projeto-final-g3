@@ -55,7 +55,7 @@ export function AtivarConta() {
       <main className="ativar-conta-container">
         <div className="ativar-conta-card">
           <h2>Ativar Conta</h2>
-          <p>insira o seu endereço de email e o token recebido por email para ativar sua conta.</p>
+          <p>Insira o token recebido por email e seu endereço de email para ativar sua conta.</p>
 
           <form onSubmit={handleSubmit}>
             {mensagem && (

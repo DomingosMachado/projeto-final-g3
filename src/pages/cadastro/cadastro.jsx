@@ -313,8 +313,8 @@ export function Cadastro() {
     }
 
     setMensagem("Cadastro realizado com sucesso! Verifique seu e-mail.");
+    navigate("/ativarConta"); // Redireciona para a página de ativação de conta
     // Redirecionar ou limpar formulário se desejar
-    navigate("../ativarConta");
   } catch (error) {
     setMensagem("Erro ao cadastrar. Tente novamente.");
   } finally {
