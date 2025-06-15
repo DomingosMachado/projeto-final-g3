@@ -1,0 +1,154 @@
+/* Container principal */
+.ativar-conta-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.ativar-conta-card {
+  background: #fff;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+}
+
+.ativar-conta-card h2 {
+  color: #4f46e5;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.ativar-conta-card h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  border-radius: 3px;
+}
+
+.ativar-conta-card p {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.ativar-conta-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.campo label {
+  color: #000000;
+  font-size: 0.9rem;
+}
+
+.ativar-conta-card input[type="email"],
+.ativar-conta-card input[type="text"] {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.ativar-conta-card input[type="email"]:focus,
+.ativar-conta-card input[type="text"]:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background: #fff;
+}
+
+button[type="submit"] {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.1);
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.15);
+}
+
+button[type="submit"]:disabled {
+  background: #cbd5e1;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.mensagem {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.mensagem.sucesso {
+  background-color: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.mensagem.erro {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 600px) {
+  .ativar-conta-card {
+    padding: 1.5rem 0.75rem;
+    max-width: 100%;
+  }
+  .ativar-conta-card h2 {
+    font-size: 1.1rem;
+  }
+  .ativar-conta-card input[type="email"],
+  .ativar-conta-card input[type="text"] {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.95rem;
+  }
+  button[type="submit"] {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+}
