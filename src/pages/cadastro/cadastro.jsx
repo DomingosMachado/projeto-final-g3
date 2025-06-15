@@ -314,6 +314,7 @@ export function Cadastro() {
 
     setMensagem("Cadastro realizado com sucesso! Verifique seu e-mail.");
     // Redirecionar ou limpar formulário se desejar
+    navigate("../ativarConta");
   } catch (error) {
     setMensagem("Erro ao cadastrar. Tente novamente.");
   } finally {

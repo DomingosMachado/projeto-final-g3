@@ -119,6 +119,7 @@ export function CarrosselCategoria({
               imagem={ApiService.getFotoProduto(produto.id)}
               nome={produto.nome}
               preco={formatarPreco(produto)}
+              estoque={produto.estoque} 
               onAdicionar={() => onAdicionarProduto(produto)}
             />
           </div>

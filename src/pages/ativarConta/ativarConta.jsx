@@ -28,7 +28,13 @@ export function AtivarConta() {
         body: params.toString()
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        data = { message: await response.text() };
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "Erro ao ativar conta");
@@ -49,7 +55,7 @@ export function AtivarConta() {
       <main className="ativar-conta-container">
         <div className="ativar-conta-card">
           <h2>Ativar Conta</h2>
-          <p>Insira o token recebido por email e seu endereço de email para ativar sua conta.</p>
+          <p>insira o seu endereço de email e o token recebido por email para ativar sua conta.</p>
 
           <form onSubmit={handleSubmit}>
             {mensagem && (
