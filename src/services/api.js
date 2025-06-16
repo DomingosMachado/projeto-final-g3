@@ -79,5 +79,55 @@ class ApiService {
       throw error;
     }
   }
+    static async getUsuarioLogado() {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token não encontrado");
+
+    const response = await fetch(`${API_BASE_URL}/cliente/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar usuário logado");
+    }
+
+    const usuario = await response.json();
+    return usuario;
+  }
+ static async atualizarUsuario(dados) {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Token não encontrado");
+
+    const response = await fetch(`${API_BASE_URL}/cliente/atualizacaoParcial`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(dados),
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao atualizar usuário");
+    }
+
+    const usuarioAtualizado = await response.json();
+    return usuarioAtualizado;
+  }
+
+static async atualizarEnderecoCep(enderecoUpdateDto) {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${API_BASE_URL}/cliente/endereco`, {  // Sem interpolar objeto na URL
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify(enderecoUpdateDto),
+  });
+}
 }
 export default ApiService;
