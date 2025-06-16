@@ -72,7 +72,7 @@ function Login() {
             Criar conta
           </a>
           <span> | </span>
-          <a href="#" className="esqueceu-senha">
+          <a href="/esqueciSenha" className="esqueceu-senha">
             Esqueceu a senha?
           </a>
         </div>

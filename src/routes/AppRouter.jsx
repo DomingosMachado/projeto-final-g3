@@ -7,6 +7,7 @@ import ProdutoPage from "../pages/produto/ProdutoPage";
 import NotFound from "../pages/404/NotFound.jsx";
 import { AtivarConta } from "../pages/ativarConta/AtivarConta.jsx";
 import { Perfil } from "../pages/perfil/perfil.jsx";
+import EsqueciSenhaPage from "../pages/esqueciSenha/esqueciSenha.jsx"; // CORRIGIDO
 
 export function AppRouter() {
   return (
@@ -19,7 +20,7 @@ export function AppRouter() {
       <Route path="*" element={<NotFound />} />
       <Route path="/ativarConta" element={<AtivarConta />} />
       <Route path="/perfil" element={<Perfil />} />
-
+      <Route path="/esqueciSenha" element={<EsqueciSenhaPage />} />
     </Routes>
   );
 }

@@ -1,20 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Ballpit from './Ballpit'; 
-import './NotFound.css'; 
+import React from "react";
+import { Link } from "react-router-dom";
+import Ballpit from "./Ballpit";
+import "./NotFound.css";
 
 const NotFound = () => {
   return (
     <div className="not-found-container">
       {/* Fundo com as bolinhas interativas */}
       <div className="ballpit-wrapper">
-        <Ballpit 
+        <Ballpit
           count={404}
           gravity={0.4}
           friction={1}
           wallBounce={0.75}
           followCursor={false}
-
         />
       </div>
       <div className="not-found-content">
@@ -24,7 +23,7 @@ const NotFound = () => {
           Parece que você se perdeu em meio às bolinhas...
         </p>
         <Link to="/" className="not-found-button">
-          Voltar para a segurança
+          Voltar para a Home
         </Link>
       </div>
     </div>

@@ -28,7 +28,13 @@ export function AtivarConta() {
         body: params.toString()
       });
 
-      const data = await response.json();
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        data = { message: await response.text() };
+      }
 
       if (!response.ok) {
         throw new Error(data.message || "Erro ao ativar conta");
