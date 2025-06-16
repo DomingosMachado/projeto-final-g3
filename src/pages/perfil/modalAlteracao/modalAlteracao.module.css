@@ -36,6 +36,35 @@
 
 .botoes {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* botão à direita, mude para space-between se quiser mais */
+  gap: 12px;
   margin-top: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form > button[type="submit"] {
+  background-color: #4CAF50; /* verde */
+  color: white;
+}
+
+form > button[type="submit"]:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.botoes button.fechar {
+  background-color: #f44336; /* vermelho */
+  color: white;
+}
+
+.botoes button.fechar:hover {
+  background-color: #da190b;
 }

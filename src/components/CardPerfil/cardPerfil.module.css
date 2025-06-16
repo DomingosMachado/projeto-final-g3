@@ -1,14 +1,86 @@
 .card-perfil {
-  background-color: white;
-  border: 1px solid red;
-  border-radius: 12px;
-  padding: 20px;
   width: 300px;
+  max-width: 100%;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
   font-family: Arial, sans-serif;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: 
+    background-color 0.4s ease, 
+    border 0.4s ease, 
+    height 0.6s ease;
+  height: 60px;
+  background-color: transparent;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.card-perfil:hover,
+.card-perfil.expanded {
+  background-color: white;
+  border: 1px solid black;
+  height: 220px;
+}
+
+.card-content {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  margin-top: 10px;
+}
+
+.card-perfil.expanded .card-content,
+.card-perfil:hover .card-content {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .titulo {
   font-size: 20px;
   font-weight: bold;
+  line-height: 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Container dos botões */
+.botoes-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 400px) {
+  .card-perfil {
+    max-width: 90%;
+    height: 70px;
+  }
+  .card-perfil.expanded,
+  .card-perfil:hover {
+    height: 260px;
+  }
+  .titulo {
+    font-size: 18px;
+    line-height: 32px;
+  }
+  .card-content p {
+    font-size: 0.9rem;
+  }
+
+  /* Ajuste dos botões para telas pequenas */
+  .botoes-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .botaoAlterar,
+  .botaoExcluir {
+    flex: none;
+    width: 100%;
+  }
 }

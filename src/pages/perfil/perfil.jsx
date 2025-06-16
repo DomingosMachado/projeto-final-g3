@@ -1,67 +1,84 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar/navbar.jsx";
 import { Footer } from "../../components/Footer/footer.jsx";
 import styles from "./perfil.module.css";
 import CardPerfil from "../../components/CardPerfil/cardPerfil.jsx"; 
 import { ModalAlteracao } from "./modalAlteracao/modalAlteracao.jsx";
+import ApiService from "../../services/api";
+import { ConfirmDeleteUser } from "../../components/ConfirmDeleteUser/confirmDeleteUser.jsx";
 
 export function Perfil() {
-    const [usuario, setUsuario] = useState({
-    nome: "João Silva",
-    email: "joao.silva@example.com",
-    telefone: "(21) 1234-5678",
-    endereco: "Rua Exemplo, 123, Cidade, Estado",
-  });
-  
-  const [pedidos, setPedidos] = useState([]);
-  const [historico, setHistorico] = useState([]);
+  const [usuario, setUsuario] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarConfirmDelete, setMostrarConfirmDelete] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulando dados de pedidos e histórico
-    setPedidos([
-      { id: 1, produto: "Produto A", data: "2023-10-01", status: "Entregue" },
-      { id: 2, produto: "Produto B", data: "2023-10-05", status: "Pendente" },
-    ]);
-    setHistorico([
-      { id: 1, produto: "Produto C", data: "2023-09-15", status: "Entregue" },
-      { id: 2, produto: "Produto D", data: "2023-09-20", status: "Cancelado" },
-    ]);
-    }, []);
-    return (
+    async function buscarUsuarioLogado() {
+      try {
+        const dados = await ApiService.getUsuarioLogado();
+        setUsuario({
+          nome: dados.nome,
+          email: dados.email,
+          telefone: dados.telefone,
+          endereco: dados.endereco,
+        });
+      } catch (erro) {
+        console.error("Erro ao buscar usuário logado:", erro);
+      }
+    }
+    buscarUsuarioLogado();
+  }, []);
+
+  async function handleConfirmarExcluir() {
+    try {
+      await ApiService.deletarUsuarioLogado();
+      localStorage.clear();
+      navigate("/");
+    } catch (error) {
+      alert("Erro ao excluir conta: " + error.message);
+    }
+  }
+
+  return (
     <>
       <Navbar />
-      <CardPerfil usuario={usuario} />
-        <div className={styles.pedidos}>
-          <h2>Meus Pedidos</h2>
-          <ul>
-            {pedidos.map((pedido) => (
-              <li key={pedido.id}>
-                {pedido.produto} - {pedido.data} - {pedido.status}
-              </li>
-            ))}
-          </ul>
+
+      <div className={styles["perfil-container"]}>
+        {usuario && <CardPerfil usuario={usuario} />}
+
+        <div className={styles["botoes-container"]}>
+          <button onClick={() => setMostrarModal(true)} className={styles.botaoAlterar}>
+            Alterar
+          </button>
+
+          <button
+            onClick={() => setMostrarConfirmDelete(true)}
+            className={styles.botaoExcluir}
+          >
+            Excluir Conta
+          </button>
         </div>
-        <div className={styles.historico}>
-          <h2>Histórico de Compras</h2>
-          <ul>
-            {historico.map((item) => (
-              <li key={item.id}>
-                {item.produto} - {item.data} - {item.status}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <button onClick={() => setMostrarModal(true)} style={{ margin: "20px" }}>
-          Alterar
-        </button>
+      </div>
+
       {mostrarModal && (
         <ModalAlteracao
-          usuario={usuario}
-          setUsuario={setUsuario}
-          fechar={() => setMostrarModal(false)}
+          usuarioLogado={usuario}
+          fecharModal={() => setMostrarModal(false)}
+          atualizarUsuario={(novosDados) => setUsuario(novosDados)}
         />
       )}
+
+      <ConfirmDeleteUser
+        aberto={mostrarConfirmDelete}
+        mensagem={"Deseja excluir sua conta?"}
+        onConfirm={() => {
+          setMostrarConfirmDelete(false);
+          handleConfirmarExcluir();
+        }}
+        onCancel={() => setMostrarConfirmDelete(false)}
+      />
 
       <Footer />
     </>
