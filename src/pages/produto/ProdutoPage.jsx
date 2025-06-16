@@ -5,6 +5,8 @@ import styles from "./ProdutoPage.module.css";
 import { Navbar } from "../../components/Navbar/navbar";
 import { Footer } from "../../components/Footer/footer";
 import { Botao } from "../../components/Botao/botao";
+import { useCarrinho } from "../../context/carrinhoContext.jsx";
+import { Toaster } from "react-hot-toast";
 
 function slugify(str) {
   return str
@@ -20,6 +22,7 @@ export default function ProdutoPage() {
   const [produto, setProduto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { adcAoCarrinho } = useCarrinho();
 
   useEffect(() => {
     const fetchProduto = async () => {
@@ -158,6 +161,7 @@ export default function ProdutoPage() {
 
   return (
     <>
+      <Toaster position="top-right" />
       <Navbar />
       <main className={styles.main}>
         <div className={styles.produtoContainer}>
@@ -199,9 +203,7 @@ export default function ProdutoPage() {
               <b>Status:</b> {produto.ativo ? "Ativo" : "Inativo"}
             </p>
             <Botao
-              onClick={() =>
-                alert(`Produto \"${produto.nome}\" adicionado ao carrinho!`)
-              }
+              onClick={() => adcAoCarrinho(produto)}
             >
               + Adicionar
             </Botao>

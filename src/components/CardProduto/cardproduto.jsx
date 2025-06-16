@@ -43,24 +43,24 @@ export function CardProduto({
         />
       </div>
 
-      {/* Informações do produto (não clicáveis) */}
       <div className={styles.infoProduto}>
         <h3 className={styles.nome}>{nome || "Nome não disponível"}</h3>
       </div>
 
-      {/* Footer com preço e botão (não clicável para produto) */}
       <div className={styles.footerCard}>
         <span className={styles.preco}>R$ {preco}</span>
-        <Botao
-          disabled={esgotado}
+        <button
+          className={`${styles.botaoAdicionar} ${
+            estoqueNumerico <= 0 ? styles.esgotado : ""
+          }`}
           onClick={(e) => {
-            e.stopPropagation(); // Impede propagação para o link
+            e.stopPropagation();
             onAdicionar();
           }}
-          className={esgotado ? styles.btnEsgotado : styles.btnAdicionar}
+          disabled={estoqueNumerico <= 0}
         >
-          {esgotado ? "ESGOTADO" : "+ Adicionar"}
-        </Botao>
+          {estoqueNumerico <= 0 ? "ESGOTADO" : "+ Adicionar"}
+        </button>
       </div>
     </div>
   );

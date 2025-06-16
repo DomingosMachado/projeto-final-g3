@@ -99,7 +99,6 @@ export function Homepage() {
   // Função para adicionar produto
   const handleAdicionarProduto = (produto) => {
     adcAoCarrinho(produto);
-    toast.success(`Produto "${produto.nome}" adicionado ao carrinho!`);
   };
 
   // Função slugify
@@ -179,7 +178,7 @@ export function Homepage() {
                     nome={produto.nome}
                     preco={formatarPreco(produto)}
                     estoque={produto.estoque}
-                    onAdicionar={() => handleAdicionarProduto(produto)}
+                    onAdicionar={() => adcAoCarrinho(produto)}
                     abrirLink={() => {
                       window.open(
                         `/produto/${slugify(produto.nome)}`,

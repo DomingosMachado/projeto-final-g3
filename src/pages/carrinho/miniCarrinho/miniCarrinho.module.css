@@ -1,23 +1,132 @@
 .miniCarrinho {
   position: absolute;
-    background-color: #ffffff;
+  top: 3rem;
+  width: 350px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 1000;
+  font-family: sans-serif;
+  max-height: 500px;
+  overflow-y: auto;
+}
 
- 
+.quantidadeInput {
+  width: 50px;
+  padding: 0.25rem;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 0;
+  position: relative;
+}
+
+.listaItens {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.botaoSecundario,
+.botaoPrincipal {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.botaoPrincipal {
+  background-color: rgb(187, 23, 252);
+  color: #fff;
+}
+
+.botaoSecundario {
+  background-color: #d3d0d0;
+  color: #333;
+}
+.botaoPrincipal:hover {
+  background-color: rgb(160, 20, 216);
+  color: #fff;
+}
+
+.botaoSecundario:hover {
+  background-color: #afafaf;
+  color: #333;
 }
 
 .foto {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
-  border-radius: 5px;
-  margin-right: 10px;
+  border-radius: 6px;
+  margin-right: 0.75rem;
+}
+
+.precoUnitario,
+.subtotal {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.info {
+  flex: 1;
+}
+
+.nome {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.vazio {
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.codigo {
+  display: block;
+  font-size: 0.75rem;
+  color: #999;
+  margin-bottom: 0.25rem;
+}
+
+.detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.resumo {
+  margin-top: 0.5rem;
 }
 
 .remover {
-  background: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.4rem;
+  background: transparent;
   border: none;
-  font-size: 16px;
-  color: rgb(107, 18, 18);
+  color: #999;
   cursor: pointer;
-  font-weight: 700;
+  font-size: 1rem;
 }
