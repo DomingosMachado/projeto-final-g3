@@ -131,6 +131,19 @@
   text-align: center;
 }
 
+/* Adicionar este estilo para botões desabilitados */
+.quantidade button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background-color: #ccc !important;
+  pointer-events: none;
+}
+
+.quantidade button:disabled:hover {
+  transform: none !important;
+  background-color: #ccc !important;
+}
+
 .colunaResumoContainer {
   flex: 1.4;
   display: flex;

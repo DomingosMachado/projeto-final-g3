@@ -1,39 +1,40 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  color: #1a1a1a;
-  padding: 0 2rem;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0;
   height: 70px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* .logo {
+.navbarContainer {
   display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
-} */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+}
 
-/* .logoText {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
-} */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 
 .logoImage {
-  height: 100%;
-  width: auto;
   max-height: 80px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  transition: transform 0.3s ease;
+}
+
+.logoImage:hover {
+  transform: scale(1.05);
 }
 
 .navItens {
@@ -46,88 +47,115 @@
 }
 
 .navItens li a {
-  color: #4b5563;
+  color: white;
   text-decoration: none;
   padding: 0.75rem 1.25rem;
-  border-radius: 8px;
+  border-radius: 25px;
   font-weight: 500;
   font-size: 0.95rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .navItens li a:hover {
-  background-color: #f3f4f6;
-  color: #1f2937;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .navItens li a:active {
   transform: translateY(0);
 }
 
-/* Destaque especial para carrinho */
-.navItens li a[href="/carrinho"] {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.carrinhoLink {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #667eea !important;
+  font-weight: 600 !important;
+  position: relative;
+}
+
+.carrinhoLink:hover {
+  background: white !important;
+  color: #5a67d8 !important;
+}
+
+.carrinhoCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff4757;
   color: white;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s infinite;
 }
 
-.navItens li a[href="/carrinho"]:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-/* Destaque para login/cadastro */
-.navItens li a[href="/login"],
-.navItens li a[href="/cadastro"] {
-  border: 2px solid #e5e7eb;
-  font-weight: 600;
+/* Botão logout */
+.logoutBtn {
+  background: rgba(255, 107, 107, 0.9);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
-.navItens li a[href="/login"]:hover,
-.navItens li a[href="/cadastro"]:hover {
-  border-color: #667eea;
-  background-color: #f8fafc;
+.logoutBtn:hover {
+  background: #ff6b6b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
 }
 
 .menuBtn {
   display: none;
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
   font-size: 1.5rem;
-  color: #4b5563;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .menuBtn:hover {
-  background-color: #f3f4f6;
-  color: #1f2937;
-}
-
-.menuBtn:active {
-  transform: scale(0.95);
-}
-
-.carrinhoLink {
-  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
-  .navbar {
+  .navbarContainer {
     padding: 0 1rem;
-    height: 60px;
-  }
-
-  .logoText {
-    font-size: 1.5rem;
   }
 
   .navItens {
@@ -137,14 +165,18 @@
   .menuBtn {
     display: block;
   }
+
+  .logoImage {
+    height: 40px;
+  }
 }
 
 @media (max-width: 480px) {
-  .navbar {
+  .navbarContainer {
     padding: 0 0.75rem;
   }
 
-  .logoText {
-    font-size: 1.25rem;
+  .logoImage {
+    height: 35px;
   }
 }

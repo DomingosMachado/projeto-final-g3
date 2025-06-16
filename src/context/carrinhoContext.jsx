@@ -1,18 +1,12 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  useCallback,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { localApi } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
 const CarrinhoContext = createContext();
 
-export const CarrinhoC = ({ children }) => {
+// Componente Provider
+function CarrinhoProvider({ children }) {
   // Inicializar com dados do localStorage
   const [carrinhoItens, setCarrinhoItens] = useState(() => {
     try {
@@ -26,7 +20,6 @@ export const CarrinhoC = ({ children }) => {
 
   const navigate = useNavigate();
 
-  // CORRIGIR a função adcAoCarrinho (linha ~28):
   const adcAoCarrinho = (produto) => {
     console.log("Adicionando produto:", produto);
 
@@ -36,23 +29,39 @@ export const CarrinhoC = ({ children }) => {
       );
 
       if (itemExistente) {
+        // VERIFICAÇÃO DE ESTOQUE: não permitir adicionar mais que o estoque
+        const novaQuantidade = itemExistente.quantidade + 1;
+        if (novaQuantidade > produto.estoque) {
+          toast.error(
+            `Estoque insuficiente! Máximo disponível: ${produto.estoque}`
+          );
+          return prevItens; // Não altera o carrinho
+        }
+
         return prevItens.map((item) =>
           item.produto?.id === produto.id || item.id === produto.id
-            ? { ...item, quantidade: item.quantidade + 1 }
+            ? { ...item, quantidade: novaQuantidade }
             : item
         );
       } else {
-        return [...prevItens, { produto, quantidade: 1 }]; // MUDOU: estrutura correta
+        // VERIFICAÇÃO DE ESTOQUE: verificar se há estoque para adicionar o primeiro item
+        if (produto.estoque <= 0) {
+          toast.error("Produto sem estoque!");
+          return prevItens; // Não adiciona ao carrinho
+        }
+
+        return [...prevItens, { produto, quantidade: 1 }];
       }
     });
 
-    // Toast simples para evitar conflitos
     toast.success(`${produto.nome} adicionado!`);
   };
 
   const removerDoCarrinho = (produtoId) => {
-    setCarrinhoItens((prodAnterior) =>
-      prodAnterior.filter((item) => item.produto.id !== produtoId)
+    setCarrinhoItens((prevItens) =>
+      prevItens.filter(
+        (item) => item.produto?.id !== produtoId && item.id !== produtoId
+      )
     );
   };
 
@@ -61,118 +70,79 @@ export const CarrinhoC = ({ children }) => {
       if (quantidade <= 0) {
         return produtoAnterior.filter((item) => item.produto.id !== produtoId);
       }
-      return produtoAnterior.map((item) =>
-        item.produto.id === produtoId ? { ...item, quantidade } : item
-      );
+
+      return produtoAnterior.map((item) => {
+        if (item.produto.id === produtoId) {
+          if (quantidade > item.produto.estoque) {
+            toast.error(
+              `Estoque insuficiente! Máximo disponível: ${item.produto.estoque}`
+            );
+            return item;
+          }
+          return { ...item, quantidade };
+        }
+        return item;
+      });
     });
   };
 
-  const totalItens = () => {
-    let total = 0;
-    for (let item of carrinhoItens) {
-      total += item.quantidade;
-    }
-    return total;
+  const limparCarrinho = () => {
+    setCarrinhoItens([]);
   };
 
-  const totalPreco = () => {
-    let total = 0;
-    for (let item of carrinhoItens) {
-      total += item.produto.preco * item.quantidade;
-    }
-    return total;
-  };
+  const totalItens = carrinhoItens.reduce(
+    (total, item) => total + item.quantidade,
+    0
+  );
+  const totalPreco = carrinhoItens.reduce((total, item) => {
+    const preco = item.produto?.preco || item.preco || 0;
+    return total + preco * item.quantidade;
+  }, 0);
 
-  //aqui vou precisar da API
-  const finalizarCompra = async () => {
-    if (carrinhoItens.length === 0) {
-      alert("Seu carrinho está vazio!");
-      return;
-    }
-    const token = localStorage.getItem("token"); //quando fizermos o login, tem que armazenar o token e eu uso ele aqui
-
-    if (!token) {
-      alert("Você precisa estar logado para finalizar a compra."); //trocar depois
-      navigate("/login");
-      return;
-    }
-    console.log("Token:", `Bearer ${token}`);
-    try {
-      const promises = carrinhoItens.map(({ produto, quantidade }) =>
-        localApi.post("/pedidos/adicionar", null, {
-          params: {
-            idProduto: produto.id,
-            quantidade: quantidade,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      );
-
-      const responses = await Promise.all(promises);
-      setCarrinhoItens([]);
-      Swal.fire({
-        icon: "success",
-        title: "Compra finalizada!",
-        text: "Sua compra foi finalizada com sucesso!",
-      }).then(() => {
-        navigate("/");
-      });
-    } catch (error) {
-      console.error("Erro ao finalizar compra:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Ocorreu um erro ao finalizar sua compra.",
-      });
-    }
-  };
-
-  // Salvar no localStorage sempre que mudar
+  // Salvar no localStorage
   useEffect(() => {
-    try {
-      localStorage.setItem("carrinho", JSON.stringify(carrinhoItens));
-    } catch (error) {
-      console.error("Erro ao salvar carrinho:", error);
-    }
+    localStorage.setItem("carrinho", JSON.stringify(carrinhoItens));
   }, [carrinhoItens]);
 
   // Sincronizar entre abas
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === "carrinho") {
-        try {
-          const novoCarrinho = e.newValue ? JSON.parse(e.newValue) : [];
-          setCarrinhoItens(novoCarrinho);
-        } catch (error) {
-          console.error("Erro ao sincronizar carrinho:", error);
-        }
+        const novoCarrinho = e.newValue ? JSON.parse(e.newValue) : [];
+        setCarrinhoItens(novoCarrinho);
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
+  const value = {
+    carrinhoItens,
+    adcAoCarrinho,
+    removerDoCarrinho,
+    atualizarQuantia,
+    limparCarrinho,
+    totalItens,
+    totalPreco,
+  };
+
   return (
-    <CarrinhoContext.Provider
-      value={{
-        carrinhoItens,
-        adcAoCarrinho,
-        removerDoCarrinho,
-        atualizarQuantia,
-        totalItens,
-        totalPreco,
-        finalizarCompra,
-      }}
-    >
+    <CarrinhoContext.Provider value={value}>
       {children}
     </CarrinhoContext.Provider>
   );
-};
-export default CarrinhoC; //corrigindo
-export const useCarrinho = () => useContext(CarrinhoContext);
+}
+
+// Hook customizado
+function useCarrinho() {
+  const context = useContext(CarrinhoContext);
+  if (!context) {
+    throw new Error("useCarrinho deve ser usado dentro de CarrinhoC");
+  }
+  return context;
+}
+
+// Export padrão
+export default CarrinhoProvider;
+export { useCarrinho };

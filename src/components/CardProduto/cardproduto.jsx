@@ -48,7 +48,7 @@ export function CardProduto({
       </div>
 
       <div className={styles.footerCard}>
-        <span className={styles.preco}>R$ {preco}</span>
+        <span className={styles.preco}>{preco}</span>
         <button
           className={`${styles.botaoAdicionar} ${
             estoqueNumerico <= 0 ? styles.esgotado : ""

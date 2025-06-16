@@ -35,6 +35,7 @@ export function Carrinho() {
             </div>
           </div>
         </div>
+        <Footer />
       </>
     );
   }
@@ -44,8 +45,9 @@ export function Carrinho() {
     const adicionalPorItem = 1.0;
     return valorBase + adicionalPorItem * quantidade;
   }
-  const frete = calcularFreteFront(totalItens());
-  const totalFinal = totalPreco() + frete;
+
+  const frete = calcularFreteFront(totalItens);
+  const totalFinal = totalPreco + frete;
 
   return (
     <>
@@ -69,25 +71,53 @@ export function Carrinho() {
                 <p>Estoque: {produto.estoque}</p>
 
                 <div className={styles.quantidade}>
+                  {/* Botão de diminuir - desabilitado quando quantidade = 1 */}
                   <Botao
                     onClick={() => atualizarQuantia(produto.id, quantidade - 1)}
+                    disabled={quantidade <= 1}
+                    style={{
+                      opacity: quantidade <= 1 ? 0.5 : 1,
+                      cursor: quantidade <= 1 ? "not-allowed" : "pointer",
+                      backgroundColor: quantidade <= 1 ? "#ccc" : "",
+                    }}
                   >
                     -
                   </Botao>
+
                   <input
                     type="number"
                     value={quantidade}
                     min="1"
-                    onChange={(e) =>
-                      atualizarQuantia(produto.id, parseInt(e.target.value))
-                    }
+                    max={produto.estoque}
+                    onChange={(e) => {
+                      const novaQuantidade = parseInt(e.target.value);
+                      if (
+                        novaQuantidade >= 1 &&
+                        novaQuantidade <= produto.estoque
+                      ) {
+                        atualizarQuantia(produto.id, novaQuantidade);
+                      }
+                    }}
                   />
+
+                  {/* Botão de aumentar - desabilitado quando quantidade = estoque */}
                   <Botao
                     onClick={() => atualizarQuantia(produto.id, quantidade + 1)}
+                    disabled={quantidade >= produto.estoque}
+                    style={{
+                      opacity: quantidade >= produto.estoque ? 0.5 : 1,
+                      cursor:
+                        quantidade >= produto.estoque
+                          ? "not-allowed"
+                          : "pointer",
+                      backgroundColor:
+                        quantidade >= produto.estoque ? "#ccc" : "",
+                    }}
                   >
                     +
                   </Botao>
                 </div>
+
                 <button
                   className={styles.btnRemover}
                   onClick={() => removerDoCarrinho(produto.id)}
@@ -102,8 +132,8 @@ export function Carrinho() {
         <div className={styles.colunaResumoContainer}>
           <div className={styles.colunaResumo}>
             <h3>Resumo</h3>
-            <p>Total de itens: {totalItens()}</p>
-            <p>Valor dos Produtos: R$ {totalPreco().toFixed(2)}</p>
+            <p>Total de itens: {totalItens}</p>
+            <p>Valor dos Produtos: R$ {totalPreco.toFixed(2)}</p>
             <p>Frete: R$ {frete.toFixed(2)}</p>
             <p>
               <strong>Total: R$ {totalFinal.toFixed(2)}</strong>
@@ -122,8 +152,8 @@ export function Carrinho() {
             </button>
           </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }

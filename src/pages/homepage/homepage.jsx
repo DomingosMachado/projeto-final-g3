@@ -24,7 +24,7 @@ export function Homepage() {
     console.error("❌ Erro no contexto do carrinho:", err);
   }
 
-  const { adcAoCarrinho, carrinhoItens } = carrinhoData;
+  const { adcAoCarrinho } = useCarrinho();
 
   // Carregar dados da API
   useEffect(() => {

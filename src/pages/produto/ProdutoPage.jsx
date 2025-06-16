@@ -202,11 +202,7 @@ export default function ProdutoPage() {
             <p className={styles.status}>
               <b>Status:</b> {produto.ativo ? "Ativo" : "Inativo"}
             </p>
-            <Botao
-              onClick={() => adcAoCarrinho(produto)}
-            >
-              + Adicionar
-            </Botao>
+            <Botao onClick={() => adcAoCarrinho(produto)}>+ Adicionar</Botao>
             <Link to="/" className={styles.voltar}>
               Voltar para a loja
             </Link>
