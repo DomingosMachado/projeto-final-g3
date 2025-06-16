@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useCarrinho } from "../../../context/carrinhoContext";
-import styles from "./minicarrinho.module.css";
+import styles from "./miniCarrinho.module.css"; // CORRIGIDO: nome do arquivo
 import { Botao } from "../../../components/Botao/botao";
 import ApiService from "../../../services/api.js";
 
-export function MiniCarrinho() {
+export function MiniCarrinho({ onClose }) {
+  // Adicionei onClose
   const {
     carrinhoItens,
     totalPreco,
@@ -20,8 +21,19 @@ export function MiniCarrinho() {
     const adicionalPorItem = 1.0;
     return valorBase + adicionalPorItem * quantidade;
   }
-  const frete = calcularFreteFront(totalItens());
-  const totalFinal = totalPreco() + frete;
+
+  const frete = calcularFreteFront(totalItens);
+  const totalFinal = totalPreco + frete;
+
+  const handleFinalizarCompra = () => {
+    finalizarCompra();
+    if (onClose) onClose();
+  };
+
+  const handleVerCarrinho = () => {
+    navigate("/carrinho");
+    if (onClose) onClose(); // Fechar o mini carrinho ao navegar
+  };
 
   return (
     <div className={styles.miniCarrinho}>
@@ -37,17 +49,26 @@ export function MiniCarrinho() {
                   alt={produto.nome}
                   className={styles.foto}
                 />
-                <div className="styles.info">
+                <div className={styles.info}>
+                  {" "}
+                  {/* CORRIGIDO: remover aspas */}
                   <div className={styles.nome}>{produto.nome}</div>
                   <div className={styles.codigo}>ID: {produto.id}</div>
                   <div className={styles.detalhes}>
                     <input
                       type="number"
                       min="1"
+                      max={produto.estoque}
                       value={quantidade}
-                      onChange={(e) =>
-                        atualizarQuantia(produto.id, parseInt(e.target.value))
-                      }
+                      onChange={(e) => {
+                        const novaQuantidade = parseInt(e.target.value);
+                        if (
+                          novaQuantidade >= 1 &&
+                          novaQuantidade <= produto.estoque
+                        ) {
+                          atualizarQuantia(produto.id, novaQuantidade);
+                        }
+                      }}
                       className={styles.quantidadeInput}
                     />
                     <div className={styles.precoUnitario}>
@@ -62,6 +83,7 @@ export function MiniCarrinho() {
                 <button
                   className={styles.remover}
                   onClick={() => removerDoCarrinho(produto.id)}
+                  aria-label={`Remover ${produto.nome} do carrinho`}
                 >
                   🗑️
                 </button>
@@ -70,23 +92,24 @@ export function MiniCarrinho() {
           </ul>
           <div className={styles.resumo}>
             <p className={styles.total}>
-              Total Itens: <strong>{totalItens()}</strong>
+              {/* CORRIGIDO: Remover parênteses */}
+              Total Itens: <strong>{totalItens}</strong>
             </p>
             <p className={styles.total}>
-              Frete: <strong> R$ {frete.toFixed(2)} </strong>
+              Frete: <strong>R$ {frete.toFixed(2)}</strong>
             </p>
             <p className={styles.total}>
               Total: <strong>R$ {totalFinal.toFixed(2)}</strong>
             </p>
             <div className={styles.botoes}>
               <button
-                onClick={() => navigate("/carrinho")}
+                onClick={handleVerCarrinho}
                 className={styles.botaoSecundario}
               >
                 Ver Carrinho
               </button>
               <button
-                onClick={finalizarCompra}
+                onClick={handleFinalizarCompra}
                 className={styles.botaoPrincipal}
               >
                 Finalizar Compra

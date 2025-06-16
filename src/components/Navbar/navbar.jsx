@@ -27,6 +27,15 @@ export function Navbar() {
     setShowMenuMobile(!showMenuMobile);
   };
 
+  // ADICIONADO: Funções para controlar o MiniCarrinho
+  const handleMouseEnterCarrinho = () => {
+    setMostrarMiniCarrinho(true);
+  };
+
+  const handleMouseLeaveCarrinho = () => {
+    setMostrarMiniCarrinho(false);
+  };
+
   return (
     <header className={styles.navbar}>
       <div className={styles.navbarContainer}>
@@ -47,7 +56,12 @@ export function Navbar() {
                 Sobre
               </Link>
             </li>
-            <li>
+            {/* MODIFICADO: Adicionar hover no carrinho */}
+            <li
+              className={styles.carrinhoContainer}
+              onMouseEnter={handleMouseEnterCarrinho}
+              onMouseLeave={handleMouseLeaveCarrinho}
+            >
               <Link
                 to="/carrinho"
                 className={styles.carrinhoLink}
@@ -62,6 +76,13 @@ export function Navbar() {
                   </span>
                 )}
               </Link>
+
+              {/* ADICIONADO: MiniCarrinho dentro do li do carrinho */}
+              {mostrarMiniCarrinho && totalItens > 0 && (
+                <div className={styles.miniCarrinhoWrapper}>
+                  <MiniCarrinho onClose={() => setMostrarMiniCarrinho(false)} />
+                </div>
+              )}
             </li>
 
             {isLogged ? (
@@ -111,11 +132,6 @@ export function Navbar() {
 
       {/* Menu Mobile */}
       <MenuMobile isOpen={showMenuMobile} onToggle={toggleMobileMenu} />
-
-      {/* Mini Carrinho */}
-      {mostrarMiniCarrinho && (
-        <MiniCarrinho onClose={() => setMostrarMiniCarrinho(false)} />
-      )}
     </header>
   );
 }

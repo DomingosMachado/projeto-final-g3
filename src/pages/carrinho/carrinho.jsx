@@ -49,6 +49,20 @@ export function Carrinho() {
   const frete = calcularFreteFront(totalItens);
   const totalFinal = totalPreco + frete;
 
+  // APENAS adicionar esta função de debug:
+  const handleRealizarCompra = () => {
+    console.log("🛒 Botão Realizar Compra clicado!");
+    console.log("📦 Itens no carrinho:", carrinhoItens);
+    console.log("🔧 Função finalizarCompra existe?", typeof finalizarCompra);
+
+    if (finalizarCompra) {
+      console.log("✅ Chamando finalizarCompra...");
+      finalizarCompra();
+    } else {
+      console.error("❌ Função finalizarCompra não encontrada!");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -141,7 +155,11 @@ export function Carrinho() {
           </div>
 
           <div className={styles.blocoAcoes}>
-            <button className={styles.btnComprar} onClick={finalizarCompra}>
+            {/* APENAS TROCAR ESTA LINHA: */}
+            <button
+              className={styles.btnComprar}
+              onClick={handleRealizarCompra}
+            >
               Realizar Compra
             </button>
             <button

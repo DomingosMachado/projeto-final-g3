@@ -117,6 +117,50 @@ function CarrinhoProvider({ children }) {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
+  const finalizarCompra = async () => {
+    console.log("🛒 Iniciando finalização da compra...");
+
+    if (carrinhoItens.length === 0) {
+      toast.error("Seu carrinho está vazio!");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Você precisa estar logado para realizar compra.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      console.log("📦 Enviando pedidos para API...");
+
+      const promises = carrinhoItens.map(({ produto, quantidade }) => {
+        return localApi.post("/pedidos/adicionar", null, {
+          params: {
+            idProduto: produto.id,
+            quantidade: quantidade,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      });
+
+      await Promise.all(promises);
+
+      // Limpar carrinho após compra bem-sucedida
+      setCarrinhoItens([]);
+
+      toast.success("Compra realizada com sucesso!");
+      navigate("/");
+    } catch (error) {
+      console.error("Erro ao finalizar compra:", error);
+      toast.error("Erro ao finalizar compra. Tente novamente.");
+    }
+  };
+
   const value = {
     carrinhoItens,
     adcAoCarrinho,
@@ -125,6 +169,7 @@ function CarrinhoProvider({ children }) {
     limparCarrinho,
     totalItens,
     totalPreco,
+    finalizarCompra,
   };
 
   return (
