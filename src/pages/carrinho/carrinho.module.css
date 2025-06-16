@@ -226,3 +226,12 @@
 .btnRemover:hover {
   transform: scale(1.2);
 }
+
+.cursorDesabilitado {
+  cursor: not-allowed;
+    background: linear-gradient(135deg, #bcbcbc 0%, #9e9e9e 100%);
+}
+
+.cursorDesabilitado:hover{
+ background: linear-gradient(135deg, #bcbcbc 0%, #9e9e9e 100%);
+}

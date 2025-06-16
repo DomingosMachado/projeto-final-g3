@@ -69,11 +69,29 @@ export function Carrinho() {
                                 <p>Estoque: {produto.estoque}</p>
 
                                 <div className={styles.quantidade}>
-                                    <Botao onClick={() => atualizarQuantia(produto.id, quantidade - 1)}>-</Botao>
-                                    <input type="number" value={quantidade} min="1" onChange={(e) => atualizarQuantia(produto.id, parseInt(e.target.value))} />
-                                    <Botao onClick={() => atualizarQuantia(produto.id, quantidade + 1)}>+</Botao>
+                                    <Botao disabled={quantidade <= 1}  className={quantidade <= 1 ? styles.cursorDesabilitado : ""} onClick={() => atualizarQuantia(produto.id, quantidade - 1)}>-</Botao>
+                                    <input
+                                        type="number"
+                                        value={quantidade}
+                                        min="1"
+                                        max={produto.estoque}
+                                        onChange={(e) => {
+                                            const valor = e.target.value
+                                            const novoValor = parseInt(valor)
+                                            if (isNaN(novoValor)) return
+                                            if (novoValor >= 1 && novoValor <= produto.estoque) {
+                                                atualizarQuantia(produto.id, novoValor)
+                                            } else if (novoValor < 1) {
+                                                atualizarQuantia(produto.id, 1)
+                                            } else if (novoValor > produto.estoque) {
+                                                atualizarQuantia(produto.id, produto.estoque)
+                                            }
+                                        }
+
+                                        } />
+                                    <Botao disabled={produto.estoque <= quantidade} className={quantidade >= produto.estoque ? styles.cursorDesabilitado : ""}  onClick={() => atualizarQuantia(produto.id, quantidade + 1)}>+</Botao>
                                 </div>
-                                <button className={styles.btnRemover}onClick={() => removerDoCarrinho(produto.id)}>🗑️</button>
+                                <button className={styles.btnRemover} onClick={() => removerDoCarrinho(produto.id)}>🗑️</button>
                             </div>
                         </div>
                     ))}
@@ -92,7 +110,7 @@ export function Carrinho() {
 
                     <div className={styles.blocoAcoes}>
                         <button className={styles.btnComprar} onClick={finalizarCompra}>Realizar Compra</button>
-                        <button className={styles.btnContinuar}onClick={() => navigate("/")}>Continuar Comprando</button>
+                        <button className={styles.btnContinuar} onClick={() => navigate("/")}>Continuar Comprando</button>
                     </div>
 
                 </div>

@@ -2,7 +2,6 @@ import { createContext, useState, useContext } from "react";
 import { localApi } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
-import toast from "react-hot-toast";
 
 const CarrinhoContext = createContext();
 
@@ -60,15 +59,18 @@ export const CarrinhoC = ({ children }) => {
     //aqui vou precisar da API
     const finalizarCompra = async () => {
         if (carrinhoItens.length === 0) {
-            alert("Seu carrinho está vazio!");
+            alert("Seu carrinho está vazio!")
             return;
         }
         const token = localStorage.getItem("token") //quando fizermos o login, tem que armazenar o token e eu uso ele aqui
 
         if (!token) {
-            alert("Você precisa estar logado para finalizar a compra.") //trocar depois
-            navigate("/login")
-            return;
+            Swal.fire({
+            icon: 'warning',
+            title: 'Atenção!',
+            text: 'Você precisa estar logado para realizar compra.',
+        }).then(() => {navigate("/login")}) 
+        return
         }
     console.log("Token:", `Bearer ${token}`)
         try {
