@@ -198,7 +198,8 @@ export const ModalAlteracao = ({
     setEndereco((prev) => ({ ...prev, [name]: value }));
   }
 
-  return (
+
+    return (
     <div className={styles.overlay} onClick={fecharModal}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <form onSubmit={handleSubmit}>
@@ -211,7 +212,7 @@ export const ModalAlteracao = ({
               value={dadosPessoais.nome || ""}
               onChange={handleChangeDados}
             />
-            {erros.nome && <span style={{ color: "red" }}>{erros.nome}</span>}
+            {erros.nome && <span className={styles.erro}>{erros.nome}</span>}
           </div>
 
           <div>
@@ -222,7 +223,7 @@ export const ModalAlteracao = ({
               value={dadosPessoais.email || ""}
               onChange={handleChangeDados}
             />
-            {erros.email && <span style={{ color: "red" }}>{erros.email}</span>}
+            {erros.email && <span className={styles.erro}>{erros.email}</span>}
           </div>
 
           <div>
@@ -232,9 +233,7 @@ export const ModalAlteracao = ({
               value={dadosPessoais.telefone || ""}
               onChange={handleChangeDados}
             />
-            {erros.telefone && (
-              <span style={{ color: "red" }}>{erros.telefone}</span>
-            )}
+            {erros.telefone && <span className={styles.erro}>{erros.telefone}</span>}
           </div>
 
           <hr />
@@ -246,7 +245,7 @@ export const ModalAlteracao = ({
               value={endereco.cep || ""}
               onChange={handleChangeEndereco}
             />
-            {erros.cep && <span style={{ color: "red" }}>{erros.cep}</span>}
+            {erros.cep && <span className={styles.erro}>{erros.cep}</span>}
             {loadingCep && <small>Buscando endereço...</small>}
           </div>
 
@@ -257,7 +256,7 @@ export const ModalAlteracao = ({
               value={endereco.rua || ""}
               onChange={handleChangeEndereco}
             />
-            {erros.rua && <span style={{ color: "red" }}>{erros.rua}</span>}
+            {erros.rua && <span className={styles.erro}>{erros.rua}</span>}
           </div>
 
           <div>
@@ -294,18 +293,25 @@ export const ModalAlteracao = ({
               value={endereco.numero || ""}
               onChange={handleChangeEndereco}
             />
-            {erros.numero && (
-              <span style={{ color: "red" }}>{erros.numero}</span>
-            )}
+            {erros.numero && <span className={styles.erro}>{erros.numero}</span>}
           </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Atualizando..." : "Atualizar Perfil"}
-          </button>
+          <div className={styles.botoes}>
+            <button type="submit" disabled={loading}>
+              {loading ? "Atualizando..." : "Atualizar Perfil"}
+            </button>
 
-          {mensagem && <p>{mensagem}</p>}
+            <button
+              type="button"
+              className={styles.fechar}
+              onClick={fecharModal}
+            >
+              Fechar
+            </button>
+          </div>
+
+          {mensagem && <p className={styles.mensagem}>{mensagem}</p>}
         </form>
-        <button onClick={fecharModal}>Fechar</button>
       </div>
     </div>
   );
