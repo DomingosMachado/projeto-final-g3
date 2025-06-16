@@ -1,6 +1,8 @@
 import { createContext, useState, useContext } from "react";
 import { localApi } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import toast from "react-hot-toast";
 
 const CarrinhoContext = createContext();
 
@@ -88,11 +90,18 @@ export const CarrinhoC = ({ children }) => {
 
             const responses = await Promise.all(promises)
             setCarrinhoItens([]);
-            alert("Compra finalizada com sucesso!"); //mudar o alerta depois (sweetalert ou toastify?)
-            navigate("/");
+            Swal.fire({
+                icon:"success",
+                title:"Compra finalizada!",
+                text:"Sua compra foi finalizada com sucesso!"
+            }).then(() => {navigate("/")})
         } catch (error) {
             console.error("Erro ao finalizar compra:", error)
-            alert("Erro ao finalizar compra.")
+            Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Ocorreu um erro ao finalizar sua compra.',
+        })
         }
     };
 

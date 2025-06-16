@@ -8,6 +8,14 @@ export function MiniCarrinho() {
     const { carrinhoItens, totalPreco, removerDoCarrinho, atualizarQuantia, finalizarCompra, totalItens } = useCarrinho();
     const navigate = useNavigate()
 
+    function calcularFreteFront(quantidade) {
+        const valorBase = 5.0
+        const adicionalPorItem = 1.0
+        return valorBase + adicionalPorItem * quantidade
+    }
+    const frete = calcularFreteFront(totalItens())
+    const totalFinal = totalPreco() + frete
+
     return (
         <div className={styles.miniCarrinho}>
             {carrinhoItens.length === 0 ? (
@@ -47,7 +55,8 @@ export function MiniCarrinho() {
                     </ul>
                     <div className={styles.resumo}>
                         <p className={styles.total}>Total Itens: <strong>{totalItens()}</strong></p>
-                        <p className={styles.total}>Total: <strong>R$ {totalPreco().toFixed(2)}</strong></p>
+                        <p className={styles.total}>Frete: <strong> R$ {frete.toFixed(2)} </strong></p>
+                        <p className={styles.total}>Total: <strong>R$ {totalFinal.toFixed(2)}</strong></p>
                         <div className={styles.botoes}>
                             <button onClick={() => navigate("/carrinho")} className={styles.botaoSecundario}>Ver Carrinho</button>
                             <button onClick={finalizarCompra} className={styles.botaoPrincipal}>Finalizar Compra</button>
