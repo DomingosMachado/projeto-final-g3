@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./modalAlteracao.module.css";
-import ApiService from "../../../services/api"; // ajuste o caminho se necessário
+import ApiService from "../../../services/api"; 
 const API_BASE_URL = "http://localhost:8080";
 
 export const ModalAlteracao = ({

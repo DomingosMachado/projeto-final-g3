@@ -129,5 +129,54 @@ static async atualizarEnderecoCep(enderecoUpdateDto) {
     body: JSON.stringify(enderecoUpdateDto),
   });
 }
+   atualizarCliente = async (dados, token) => {
+  const response = await fetch(`${API_BASE_URL}/cliente/atualizacaoParcial`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(dados),
+  });
+
+  if (!response.ok) {
+    const erro = await response.json();
+    throw new Error(erro.message || "Erro ao atualizar");
+  }
+
+  return response; // se quiser só status, ou .json() se a API retornar algo
+};
+
+ buscarClienteAtual = async (token) => {
+  const response = await fetch(`${API_BASE_URL}/cliente/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao buscar dados atualizados.");
+  }
+
+  return await response.json();
+}
+static async deletarUsuarioLogado() {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Token não encontrado");
+
+  const response = await fetch(`${API_BASE_URL}/cliente/delete`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const erro = await response.json();
+    throw new Error(erro.message || "Erro ao deletar usuário");
+  }
+
+  return await response.text(); // ou json, dependendo do que sua API retornar
+}
 }
 export default ApiService;
