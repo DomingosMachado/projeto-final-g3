@@ -1,65 +1,167 @@
-Bem-vindo, estudante!
-Aqui começa sua missão.
-Missão: E-Commerce React
-Alvos Principais
+# 🛒 E-Commerce React - Projeto Final G3
 
-    Tela Inicial (Base de Lançamento)
+**Missão Concluída**: Sistema de e-commerce desenvolvido com React + Vite integrado à API REST.
 
-    Missão: Exibir produtos disponíveis para compra, organizados em uma grade visual.
+## 📋 Sobre o Projeto
 
-    Detalhes: Cada produto deve revelar imagem, nome, descrição breve e preço. Um botão de adição deve estar disponível para enviar o item ao "Carregamento de Recursos" (carrinho).
-    Tela Sobre (Arquivo Confidencial do Time)
+Sistema completo de e-commerce desenvolvido pelo **Grupo 3** como projeto final do curso **Serratec**. A aplicação oferece uma experiência de compra moderna e intuitiva, com gerenciamento de estado avançado e integração total com backend.
 
-    Missão: Fornecer informações confidenciais sobre os agentes (desenvolvedores) da equipe.
+## 🎯 Funcionalidades Implementadas
 
-    Detalhes: Cada membro deve apresentar uma foto e um resumo sobre suas habilidades e expertise.
-    Tela do Carrinho (Centro de Operações de Compras)
+### 🏠 **Homepage (Base de Lançamento)**
 
-    Missão: Implementar um sistema de gerenciamento de itens adicionados ao carrinho.
+- Catálogo de produtos com imagens, nomes, descrições e preços
+- Sistema de filtragem por categorias
+- Busca avançada de produtos
+- Botão "Adicionar ao Carrinho" integrado ao Context API
 
-    Recursos: Utilizar Context API para um controle estratégico do estado global.
+### 🛒 **Sistema de Carrinho (Centro de Operações)**
 
-    Exibir: Número total de itens e valor total da operação de compra.
-    Tela de Login (Ponto de Acesso Restrito)
+- **Context API** para gerenciamento global do estado
+- Persistência dos itens no localStorage
+- Cálculo automático de totais e frete
+- **MiniCarrinho** com hover na navbar
+- Finalização de compra com integração à API
+- Validação de estoque em tempo real
 
-    Missão: Proteger o e-commerce com um formulário de autenticação para agentes (usuários) cadastrados.
+### 🔐 **Autenticação & Perfil (Ponto de Acesso)**
 
-    Desafios: Campos obrigatórios para e-mail e senha (e-mail contendo “@” e senha não vazia). Opção de log-out para encerrar a sessão segura.
-    Tela de Cadastro (Recrutamento de Novos Agentes)
+- Login seguro com JWT tokens
+- Cadastro de novos usuários com validações
+- Perfil do usuário com dados editáveis
+- Sistema de recuperação de senha
+- Ativação de conta por email
+- Logout com limpeza de sessão
 
-    Missão: Prover um formulário de cadastro para novos usuários.
+### 📱 **Interface & Navegação**
 
-    Campos obrigatórios: Nome, e-mail, CPF, telefone, endereço, senha e confirmação de senha.
+- Design responsivo (Mobile-first)
+- **React Router** para navegação SPA
+- **CSS Modules** para estilização isolada
+- Menu mobile com hamburger
+- Toast notifications (react-hot-toast)
+- Loading states e error boundaries
 
-    Desafios: Validações de campo: CPF com 11 dígitos, e-mail válido e confirmação de senha correspondente.
+### 🌐 **Integração com Backend**
 
-Estilo Camuflado e Atraente
+- Consumo completo da API REST
+- Interceptors Axios para debug e tratamento de erros
+- Upload e exibição de imagens de produtos
+- Gerenciamento de pedidos
+- Validação de dados no frontend e backend
 
-    CSS Modules:
+## 🚀 Tecnologias Utilizadas
 
-Instruções de Execução
+### **Frontend**
 
-    Estrutura Tática:
-    Cada tela deverá ser implementada como um componente React funcional.
-    Navegação entre Bases:
-    Integrar o sistema de navegação utilizando React Router.
-    Organização Estratégica:
-    Dividir os componentes em pastas conforme o treinamento recebido.
-    Conexão com o Backend:
-    Fazer as requisições à API desenvolvida na disciplina de "Desenvolvimento de API Restful".
+- **React 18** + **Vite** (Build tool moderna)
+- **React Router DOM** (Navegação SPA)
+- **Context API** (Gerenciamento de estado global)
+- **Axios** (Requisições HTTP)
+- **CSS Modules** (Estilização isolada)
+- **React Hot Toast** (Notificações)
+- **SweetAlert2** (Modais elegantes)
 
-Entrega da Missão
+### **Backend Integration**
 
-Local de Entrega: Repositório da missão.
+- **Spring Boot** API REST
+- **JWT Authentication**
+- **MySQL Database**
+- **Cors** configurado para desenvolvimento
 
-Nota: Cada agente deve contribuir com commits (pelo menos uma tela por integrante), garantindo assim sua presença na operação.
+## 📁 Estrutura do Projeto
 
-Prazo Final: 16/06/2025
-Critérios de Sucesso da Missão
+```
+src/
+├── components/           # Componentes reutilizáveis
+│   ├── Navbar/          # Barra de navegação
+│   ├── Footer/          # Rodapé
+│   ├── Botao/           # Botão customizado
+│   └── MenuMobile/      # Menu responsivo
+├── pages/               # Páginas da aplicação
+│   ├── homepage/        # Tela inicial
+│   ├── carrinho/        # Carrinho de compras
+│   ├── login/           # Autenticação
+│   ├── cadastro/        # Registro de usuários
+│   ├── perfil/          # Perfil do usuário
+│   ├── produto/         # Detalhes do produto
+│   └── sobre/           # Sobre a equipe
+├── context/             # Context API
+│   └── carrinhoContext.jsx  # Estado global do carrinho
+├── services/            # Integração com API
+│   └── api.js           # Configuração Axios
+├── routes/              # Configuração de rotas
+│   └── AppRouter.jsx    # Roteamento principal
+└── assets/              # Recursos estáticos
+```
 
-    Implementação completa das funcionalidades requeridas.
-    Organização e qualidade do código.
-    Uso adequado de tecnologias (React, Context API, CSS Modules, styled-components).
-    Design eficiente e experiência de usuário adequada.
+### **Configuração da API**
 
-Boa sorte, Agentes. Cada ponto conta!
+```javascript
+// src/services/api.js
+const API_BASE_URL = "http://localhost:8080";
+```
+
+### **🎯 Membros & Responsabilidades**
+
+<table>
+<tr>
+<td align="center">
+<img src="https://github.com/pachecoCaua.png" width="100px;" alt="Cauã Pacheco"/><br>
+<sub><b>👨‍💻 Cauã Pacheco</b></sub><br>
+<a href="https://github.com/pachecoCaua">@pachecoCaua</a><br>
+<em>📱 Perfil & User Management</em>
+</td>
+<td align="center">
+<img src="https://github.com/Danzete.png" width="100px;" alt="Daniel Lopes"/><br>
+<sub><b>👨‍💻 Daniel Lopes</b></sub><br>
+<a href="https://github.com/Danzete">@Danzete</a><br>
+<em>🔐 Cadastro, 404 & Auth Flow</em>
+</td>
+<td align="center">
+<img src="https://github.com/DomingosMachado.png" width="100px;" alt="Domingos Machado"/><br>
+<sub><b>👨‍💻 Domingos Machado</b></sub><br>
+<a href="https://github.com/DomingosMachado">@DomingosMachado</a><br>
+<em>🏠 Homepage & Produto</em>
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="https://github.com/raycaThais.png" width="100px;" alt="Rayca Thais"/><br>
+<sub><b>👩‍💻 Rayca Thais</b></sub><br>
+<a href="https://github.com/raycaThais">@raycaThais</a><br>
+<em>🛒 Carrinho & Mini Carrinho</em>
+</td>
+<td align="center">
+<img src="https://github.com/rodschuab.png" width="100px;" alt="Rodrigo Schuab"/><br>
+<sub><b>👨‍💻 Rodrigo Schuab</b></sub><br>
+<a href="https://github.com/rodschuab">@rodschuab</a><br>
+<em>ℹ️ Página Sobre & Documentação</em>
+</td>
+<td align="center">
+<img src="https://github.com/Sai-czs.png" width="100px;" alt="Sabrina Siqueira"/><br>
+<sub><b>👩‍💻 Sabrina Siqueira</b></sub><br>
+<a href="https://github.com/Sai-czs">@Sai-czs</a><br>
+<em>🔑 Login & Autenticação</em>
+</td>
+</tr>
+</table>
+
+---
+
+## 📅 Entrega Final: 16/06/2025
+
+**Status**: ✅ **MISSÃO CONCLUÍDA COM SUCESSO**
+
+> Desenvolvido com ❤️ pelo Grupo 3 - Serratec 2025
+
+## 🔗 Links Úteis
+
+- [Documentação React](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
+- [React Router](https://reactrouter.com/)
+- [Context API Guide](https://react.dev/reference/react/useContext)
+
+## 📞 Contato da Equipe
+
+**Grupo 3 - Turma Serratec 2025** 🎓
