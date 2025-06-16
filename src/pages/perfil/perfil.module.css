@@ -1,90 +1,262 @@
 .perfil-container {
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 160px); /* tela cheia menos altura do Navbar + Footer */
-  padding: 20px;
-}
-
-/* Mantém os estilos do card como estavam */
-.card-perfil {
-  width: 300px;
-  max-width: 100%;
-  border: none;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: background-color 0.4s ease, border 0.4s ease, height 0.6s ease;
-  height: 60px;
-  background-color: transparent;
-  padding: 10px 20px;
+  justify-content: flex-start; /* ADICIONADO: Alinhar ao topo */
+  gap: 2rem;
   position: relative;
-  margin-bottom: 20px;
+  z-index: 1;
 }
 
-.card-perfil:hover,
-.card-perfil.expanded {
-  background-color: white;
-  border: 1px solid black;
-  height: 220px;
+.perfilCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  z-index: 2;
+  opacity: 1;
+  visibility: visible;
+  transform: none; /* ADICIONADO: Resetar transformações */
 }
 
-.card-content {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-  margin-top: 10px;
+.perfilHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 3;
 }
 
-.card-perfil.expanded .card-content,
-.card-perfil:hover .card-content {
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  position: relative;
+  z-index: 4;
+}
+
+.nomeUsuario {
+  color: #1a202c;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  position: relative;
+  z-index: 3;
+  text-align: center; /* ADICIONADO: Garantir centralização */
+}
+
+.dadosContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 3;
+  width: 100%; /* ADICIONADO: Ocupar largura total */
+}
+
+.dadoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem; /* AUMENTADO: Mais padding */
+  background: rgba(102, 126, 234, 0.08); /* MAIS VISÍVEL */
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  position: relative;
+  z-index: 3;
   opacity: 1;
   pointer-events: auto;
+  width: 100%; /* ADICIONADO: Ocupar largura total */
+  box-sizing: border-box; /* ADICIONADO: Incluir padding na largura */
 }
 
-.titulo {
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 40px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.dadoLabel {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 1rem; /* AUMENTADO: Fonte maior */
+  margin-bottom: 0.3rem; /* ADICIONADO: Espaçamento */
 }
 
-/* Botões centralizados em coluna */
+.dadoValor {
+  color: #1a202c;
+  font-size: 1.1rem;
+  word-break: break-word;
+  line-height: 1.4; /* ADICIONADO: Melhor espaçamento de linha */
+}
+
 .botoes-container {
   display: flex;
-  flex-direction: row;
+  gap: 1rem;
   justify-content: center;
-  gap: 10px;
+  position: relative;
+  z-index: 5;
+  width: 100%; /* ADICIONADO: Ocupar largura total */
+  margin-top: 1rem; /* ADICIONADO: Espaçamento superior */
 }
 
 .botaoAlterar,
 .botaoExcluir {
-  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: white;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* ADICIONADO: Centralizar conteúdo */
+  gap: 0.5rem;
+  position: relative;
+  z-index: 6;
+  min-width: 140px; /* ADICIONADO: Largura mínima */
 }
 
 .botaoAlterar {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
 }
 
 .botaoAlterar:hover {
-  background-color: #1e7e34;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
 }
 
 .botaoExcluir {
-  background-color: #dc3545;
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  color: white;
 }
 
 .botaoExcluir:hover {
-  background-color: #a71d2a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(229, 62, 62, 0.3);
+}
+
+/* ADICIONADO: Garantir que aparece completo desde o início */
+.perfilCard,
+.dadoItem,
+.botaoAlterar,
+.botaoExcluir {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estados de carregamento e erro */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.botaoTentarNovamente {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 11;
+}
+
+/* ADICIONADO: Reset de possíveis conflitos */
+.perfil-container * {
+  box-sizing: border-box;
+}
+
+/* ADICIONADO: Garantir que não há elementos flutuantes */
+.perfil-container::before,
+.perfil-container::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .perfil-container {
+    padding: 1rem;
+  }
+
+  .perfilCard {
+    padding: 1.5rem;
+    max-width: 100%; /* MÓVEL: Ocupar largura completa */
+  }
+
+  .botoes-container {
+    flex-direction: column;
+    align-items: center; /* ADICIONADO: Centralizar botões */
+  }
+
+  .botaoAlterar,
+  .botaoExcluir {
+    width: 100%; /* MÓVEL: Botões largura completa */
+    max-width: 250px; /* LIMITE: Não muito largo */
+  }
+
+  .dadoItem {
+    padding: 1rem;
+  }
+
+  .nomeUsuario {
+    font-size: 1.5rem;
+  }
 }

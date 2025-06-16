@@ -1,86 +1,156 @@
 .card-perfil {
-  width: 300px;
-  max-width: 100%;
-  border: none;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   font-family: Arial, sans-serif;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: 
-    background-color 0.4s ease, 
-    border 0.4s ease, 
-    height 0.6s ease;
-  height: 60px;
-  background-color: transparent;
-  padding: 10px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  height: 95px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.card-perfil:hover,
-.card-perfil.expanded {
-  background-color: white;
-  border: 1px solid black;
-  height: 220px;
-}
-
-.card-content {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-  margin-top: 10px;
-}
-
-.card-perfil.expanded .card-content,
-.card-perfil:hover .card-content {
-  opacity: 1;
-  pointer-events: auto;
+.card-perfil:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  height: auto;
+  min-height: 200px; /* ALTURA MÍNIMA expandida */
 }
 
 .titulo {
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 40px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #1a202c;
+  text-align: center;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s ease;
 }
 
-/* Container dos botões */
-.botoes-container {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.card-perfil:hover .titulo {
+  white-space: normal; /* PERMITIR quebra de linha no hover */
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem; /* LIGEIRAMENTE maior no hover */
+}
+
+.card-content {
+  opacity: 0; /* INVISÍVEL por padrão */
+  transform: translateY(-10px); /* LIGEIRAMENTE para cima */
+  transition: all 0.4s ease 0.1s; /* DELAY para suavizar */
+  pointer-events: none;
+  overflow: hidden;
+  max-height: 0; /* ALTURA ZERO por padrão */
+}
+
+.card-perfil:hover .card-content {
+  opacity: 1; /* VISÍVEL no hover */
+  transform: translateY(0); /* POSIÇÃO normal */
+  pointer-events: auto;
+  max-height: 300px; /* ALTURA máxima no hover */
+}
+
+.card-content p {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.card-content strong {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* EFEITO adicional: destacar ao hover */
+.card-perfil:hover {
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 /* Responsividade */
-@media (max-width: 400px) {
+@media (max-width: 768px) {
   .card-perfil {
-    max-width: 90%;
-    height: 70px;
+    max-width: 100%;
+    padding: 1.2rem;
+    height: 70px; /* MENOR no mobile */
   }
-  .card-perfil.expanded,
+
   .card-perfil:hover {
-    height: 260px;
+    min-height: 180px;
   }
+
   .titulo {
-    font-size: 18px;
-    line-height: 32px;
+    font-size: 1.3rem;
   }
+
+  .card-perfil:hover .titulo {
+    font-size: 1.4rem;
+  }
+
+  .card-content p {
+    font-size: 0.95rem;
+    margin: 0.6rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-perfil {
+    padding: 1rem;
+    height: 65px;
+  }
+
+  .card-perfil:hover {
+    min-height: 160px;
+  }
+
+  .titulo {
+    font-size: 1.2rem;
+  }
+
   .card-content p {
     font-size: 0.9rem;
   }
+}
 
-  /* Ajuste dos botões para telas pequenas */
-  .botoes-container {
-    flex-direction: column;
-    gap: 12px;
+/* EFEITO de pulsação sutil para indicar que é interativo */
+.card-perfil::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #667eea;
+  opacity: 0.6;
+  animation: pulse 2s infinite;
+}
+
+.card-perfil:hover::before {
+  opacity: 0; /* ESCONDER no hover */
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1);
   }
-
-  .botaoAlterar,
-  .botaoExcluir {
-    flex: none;
-    width: 100%;
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
   }
 }

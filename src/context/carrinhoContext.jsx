@@ -119,6 +119,8 @@ function CarrinhoProvider({ children }) {
 
   const finalizarCompra = async () => {
     console.log("🛒 Iniciando finalização da compra...");
+    console.log("📦 Itens do carrinho:", carrinhoItens);
+    console.log("💰 Total do carrinho:", totalPreco);
 
     if (carrinhoItens.length === 0) {
       toast.error("Seu carrinho está vazio!");
@@ -135,29 +137,66 @@ function CarrinhoProvider({ children }) {
 
     try {
       console.log("📦 Enviando pedidos para API...");
+      console.log("🔑 Token:", token);
 
-      const promises = carrinhoItens.map(({ produto, quantidade }) => {
-        return localApi.post("/pedidos/adicionar", null, {
-          params: {
-            idProduto: produto.id,
-            quantidade: quantidade,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      });
+      for (const { produto, quantidade } of carrinhoItens) {
+        console.log(
+          `➡️ Processando produto: ${produto.nome} (ID: ${produto.id}) - Quantidade: ${quantidade}`
+        );
 
-      await Promise.all(promises);
+        try {
+          const response = await localApi.post("/pedidos/adicionar", null, {
+            params: {
+              idProduto: parseInt(produto.id),
+              quantidade: parseInt(quantidade),
+            },
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          console.log(
+            `✅ Produto ${produto.nome} adicionado com sucesso:`,
+            response.data
+          );
+        } catch (itemError) {
+          console.error(`❌ Erro ao adicionar ${produto.nome}:`, itemError);
+          console.error("Detalhes do erro:", itemError.response?.data);
+
+          // Parar o processo se um item falhar
+          throw new Error(
+            `Erro ao adicionar ${produto.nome}: ${
+              itemError.response?.data?.erros?.[0] || itemError.message
+            }`
+          );
+        }
+      }
+
+      // Se chegou aqui, todos os itens foram adicionados com sucesso
+      console.log("✅ Todos os pedidos foram processados com sucesso!");
 
       // Limpar carrinho após compra bem-sucedida
       setCarrinhoItens([]);
+      localStorage.removeItem("carrinho");
 
-      toast.success("Compra realizada com sucesso!");
+      toast.success(
+        `Compra realizada com sucesso! Total: R$ ${totalPreco.toFixed(2)}`
+      );
       navigate("/");
     } catch (error) {
-      console.error("Erro ao finalizar compra:", error);
-      toast.error("Erro ao finalizar compra. Tente novamente.");
+      console.error("❌ Erro ao finalizar compra:", error);
+      console.error("📋 Response data:", error.response?.data);
+      console.error("📊 Status:", error.response?.status);
+
+      // Mostrar erro específico do servidor se disponível
+      const mensagemErro =
+        error.response?.data?.erros?.[0] ||
+        error.response?.data?.message ||
+        error.message ||
+        "Erro desconhecido";
+
+      toast.error(`Erro ao finalizar compra: ${mensagemErro}`);
     }
   };
 

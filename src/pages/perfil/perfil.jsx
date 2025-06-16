@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "../../components/Navbar/navbar.jsx";
 import { Footer } from "../../components/Footer/footer.jsx";
 import styles from "./perfil.module.css";
-import CardPerfil from "../../components/CardPerfil/cardPerfil.jsx"; 
+import CardPerfil from "../../components/CardPerfil/cardPerfil.jsx";
 import { ModalAlteracao } from "./modalAlteracao/modalAlteracao.jsx";
 import ApiService from "../../services/api";
 import { ConfirmDeleteUser } from "../../components/ConfirmDeleteUser/confirmDeleteUser.jsx";
@@ -49,7 +49,10 @@ export function Perfil() {
         {usuario && <CardPerfil usuario={usuario} />}
 
         <div className={styles["botoes-container"]}>
-          <button onClick={() => setMostrarModal(true)} className={styles.botaoAlterar}>
+          <button
+            onClick={() => setMostrarModal(true)}
+            className={styles.botaoAlterar}
+          >
             Alterar
           </button>
 
