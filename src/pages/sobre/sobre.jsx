@@ -20,7 +20,7 @@ const Grupo3 = [
   {
     nome: 'Domingos Machado',
     imagem: '/imagens/domingos.jpg',
-    descricao: '',
+    descricao: 'Olá! Me chamo Domingos Machado, tenho 31 anos e moro em Teresópolis. Estou em formação como Desenvolvedor Fullstack, com maior interesse na área de Frontend, especialmente depois de começar a trabalhar com React.',
     github: 'https://github.com/DomingosMachado'
   },
   {
