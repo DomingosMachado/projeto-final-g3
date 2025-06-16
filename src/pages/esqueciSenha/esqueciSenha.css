@@ -1,0 +1,87 @@
+.esqueci-senha-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.esqueci-senha-card {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(106, 90, 249, 0.10);
+  width: 100%;
+  max-width: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.esqueci-senha-card h2 {
+  color: #6a5af9;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.esqueci-senha-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.esqueci-senha-card label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 0.2rem;
+}
+
+.esqueci-senha-card input {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: border 0.2s;
+}
+
+.esqueci-senha-card input:focus {
+  border: 1.5px solid #6a5af9;
+  outline: none;
+}
+
+.esqueci-senha-card button {
+  background: linear-gradient(90deg, #6a5af9 60%, #836fff 100%);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.esqueci-senha-card button:hover {
+  background: linear-gradient(90deg, #836fff 0%, #6a5af9 100%);
+}
+
+.esqueci-senha-card p {
+  margin: 0.5rem 0 0 0;
+  text-align: center;
+  color: #e74c3c;
+  font-size: 0.98rem;
+}
+
+@media (max-width: 500px) {
+  .esqueci-senha-card {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+}

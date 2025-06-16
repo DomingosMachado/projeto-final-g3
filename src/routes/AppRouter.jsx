@@ -6,6 +6,9 @@ import { Cadastro } from "../pages/cadastro/cadastro";
 import ProdutoPage from "../pages/produto/ProdutoPage";
 import NotFound from "../pages/404/NotFound.jsx";
 import { AtivarConta } from "../pages/ativarConta/ativarConta.jsx";
+import  EsqueciSenhaPage  from "../pages/esqueciSenha/esqueciSenha.jsx";
+
+
 
 export function AppRouter() {
   return (
@@ -17,6 +20,8 @@ export function AppRouter() {
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/ativarConta" element={<AtivarConta />} />
+      <Route path="/esqueciSenha" element={<EsqueciSenhaPage />} />
+    
     </Routes>
   );
 }
