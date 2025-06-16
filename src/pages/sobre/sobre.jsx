@@ -48,7 +48,7 @@ export function Sobre() {
     <>
       <Navbar />
       <div className={styles.container}>
-        <h1>🕵️‍♂️ Arquivo Confidencial do Time 3</h1>
+        <h1>🕵️‍♂️ Arquivo Confidencial do Grupo 3</h1>
         <p className={styles.missao}>Informações sobre os integrantes do Grupo 3</p>
 
         {Grupo3.map((integrante, index) => (
