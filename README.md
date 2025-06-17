@@ -4,7 +4,56 @@
 
 ## 📋 Sobre o Projeto
 
-Sistema completo de e-commerce desenvolvido pelo **Grupo 3** como projeto final do curso **Serratec**. A aplicação oferece uma experiência de compra moderna e intuitiva, com gerenciamento de estado avançado e integração total com backend.
+Sistema completo de ecommerce desenvolvido pelo **Grupo 3** como projeto final de **React** do curso **Serratec**. A aplicação oferece uma experiência de compra moderna e intuitiva, com gerenciamento de estado avançado e integração total com backend, também desenvolvido pela equipe.
+
+---
+
+### **🎯 Membros & Responsabilidades**
+
+<table>
+<tr>
+<td align="center">
+<img src="https://github.com/pachecoCaua.png" width="100px;" alt="Cauã Pacheco"/><br>
+<sub><b>👨‍💻 Cauã Pacheco</b></sub><br>
+<a href="https://github.com/pachecoCaua">@pachecoCaua</a><br>
+<em>📱 Perfil & User Management</em>
+</td>
+<td align="center">
+<img src="https://github.com/Danzete.png" width="100px;" alt="Daniel Lopes"/><br>
+<sub><b>👨‍💻 Daniel Lopes</b></sub><br>
+<a href="https://github.com/Danzete">@Danzete</a><br>
+<em>🔐 Cadastro, 404 & Auth Flow</em>
+</td>
+<td align="center">
+<img src="https://github.com/DomingosMachado.png" width="100px;" alt="Domingos Machado"/><br>
+<sub><b>👨‍💻 Domingos Machado</b></sub><br>
+<a href="https://github.com/DomingosMachado">@DomingosMachado</a><br>
+<em>🏠 Homepage & Produto</em>
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="https://github.com/raycaThais.png" width="100px;" alt="Rayca Thais"/><br>
+<sub><b>👩‍💻 Rayca Thais</b></sub><br>
+<a href="https://github.com/raycaThais">@raycaThais</a><br>
+<em>🛒 Carrinho & Mini Carrinho</em>
+</td>
+<td align="center">
+<img src="https://github.com/rodschuab.png" width="100px;" alt="Rodrigo Schuab"/><br>
+<sub><b>👨‍💻 Rodrigo Schuab</b></sub><br>
+<a href="https://github.com/rodschuab">@rodschuab</a><br>
+<em>ℹ️ Página Sobre & Documentação</em>
+</td>
+<td align="center">
+<img src="https://github.com/Sai-czs.png" width="100px;" alt="Sabrina Siqueira"/><br>
+<sub><b>👩‍💻 Sabrina Siqueira</b></sub><br>
+<a href="https://github.com/Sai-czs">@Sai-czs</a><br>
+<em>🔑 Login & Autenticação</em>
+</td>
+</tr>
+</table>
+
+---
 
 ## 🎯 Funcionalidades Implementadas
 
@@ -68,85 +117,7 @@ Sistema completo de e-commerce desenvolvido pelo **Grupo 3** como projeto final 
 - **JWT Authentication**
 - **MySQL Database**
 - **Cors** configurado para desenvolvimento
-
-## 📁 Estrutura do Projeto
-
-```
-src/
-├── components/           # Componentes reutilizáveis
-│   ├── Navbar/          # Barra de navegação
-│   ├── Footer/          # Rodapé
-│   ├── Botao/           # Botão customizado
-│   └── MenuMobile/      # Menu responsivo
-├── pages/               # Páginas da aplicação
-│   ├── homepage/        # Tela inicial
-│   ├── carrinho/        # Carrinho de compras
-│   ├── login/           # Autenticação
-│   ├── cadastro/        # Registro de usuários
-│   ├── perfil/          # Perfil do usuário
-│   ├── produto/         # Detalhes do produto
-│   └── sobre/           # Sobre a equipe
-├── context/             # Context API
-│   └── carrinhoContext.jsx  # Estado global do carrinho
-├── services/            # Integração com API
-│   └── api.js           # Configuração Axios
-├── routes/              # Configuração de rotas
-│   └── AppRouter.jsx    # Roteamento principal
-└── assets/              # Recursos estáticos
-```
-
-### **Configuração da API**
-
-```javascript
-// src/services/api.js
-const API_BASE_URL = "http://localhost:8080";
-```
-
-### **🎯 Membros & Responsabilidades**
-
-<table>
-<tr>
-<td align="center">
-<img src="https://github.com/pachecoCaua.png" width="100px;" alt="Cauã Pacheco"/><br>
-<sub><b>👨‍💻 Cauã Pacheco</b></sub><br>
-<a href="https://github.com/pachecoCaua">@pachecoCaua</a><br>
-<em>📱 Perfil & User Management</em>
-</td>
-<td align="center">
-<img src="https://github.com/Danzete.png" width="100px;" alt="Daniel Lopes"/><br>
-<sub><b>👨‍💻 Daniel Lopes</b></sub><br>
-<a href="https://github.com/Danzete">@Danzete</a><br>
-<em>🔐 Cadastro, 404 & Auth Flow</em>
-</td>
-<td align="center">
-<img src="https://github.com/DomingosMachado.png" width="100px;" alt="Domingos Machado"/><br>
-<sub><b>👨‍💻 Domingos Machado</b></sub><br>
-<a href="https://github.com/DomingosMachado">@DomingosMachado</a><br>
-<em>🏠 Homepage & Produto</em>
-</td>
-</tr>
-<tr>
-<td align="center">
-<img src="https://github.com/raycaThais.png" width="100px;" alt="Rayca Thais"/><br>
-<sub><b>👩‍💻 Rayca Thais</b></sub><br>
-<a href="https://github.com/raycaThais">@raycaThais</a><br>
-<em>🛒 Carrinho & Mini Carrinho</em>
-</td>
-<td align="center">
-<img src="https://github.com/rodschuab.png" width="100px;" alt="Rodrigo Schuab"/><br>
-<sub><b>👨‍💻 Rodrigo Schuab</b></sub><br>
-<a href="https://github.com/rodschuab">@rodschuab</a><br>
-<em>ℹ️ Página Sobre & Documentação</em>
-</td>
-<td align="center">
-<img src="https://github.com/Sai-czs.png" width="100px;" alt="Sabrina Siqueira"/><br>
-<sub><b>👩‍💻 Sabrina Siqueira</b></sub><br>
-<a href="https://github.com/Sai-czs">@Sai-czs</a><br>
-<em>🔑 Login & Autenticação</em>
-</td>
-</tr>
-</table>
-
+  
 ---
 
 ## 📅 Entrega Final: 16/06/2025
@@ -154,14 +125,3 @@ const API_BASE_URL = "http://localhost:8080";
 **Status**: ✅ **MISSÃO CONCLUÍDA COM SUCESSO**
 
 > Desenvolvido com ❤️ pelo Grupo 3 - Serratec 2025
-
-## 🔗 Links Úteis
-
-- [Documentação React](https://react.dev/)
-- [Vite Documentation](https://vitejs.dev/)
-- [React Router](https://reactrouter.com/)
-- [Context API Guide](https://react.dev/reference/react/useContext)
-
-## 📞 Contato da Equipe
-
-**Grupo 3 - Turma Serratec 2025** 🎓
